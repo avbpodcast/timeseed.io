@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://allesvoorbitcoin.be/TS_proto/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒TimeSeed - soon </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #2D2D2D;
+            color: #F3F4F6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin: 0;
+        }
+        .container {
+            background: #374151;
+            border-radius: 0.75rem;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #F3F4F6;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 30%;
+            width: 40%;
+            height: 3px;
+            background: #0D9488;
+            border-radius: 2px;
+        }
+        .title .emoji {
+            font-size: 1.1em;
+            transition: transform 0.2s ease;
+        }
+        .title .emoji:hover {
+            transform: scale(1.05);
+        }
+        .tab-list {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+        .tab-btn {
+            transition: all 0.2s ease;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+        #lockit-tab {
+            background: #0D9488;
+            color: #F3F4F6;
+        }
+        #lockit-tab:hover {
+            background: #14B8A6;
+        }
+        #lockit-tab.active {
+            background: #0F766E;
+            box-shadow: 0 0 10px rgba(13, 148, 136, 0.4);
+            border-bottom: 3px solid #F3F4F6;
+        }
+        #timeseed-tab {
+            background: #3B82F6;
+            color: #F3F4F6;
+        }
+        #timeseed-tab:hover {
+            background: #60A5FA;
+        }
+        #timeseed-tab.active {
+            background: #2563EB;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            border-bottom: 3px solid #F3F4F6;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .encode-btn {
+            background: #0D9488;
+            color: #F3F4F6;
+            transition: all 0.2s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+        }
+        .encode-btn:hover {
+            background: #14B8A6;
+            transform: translateY(-1px);
+        }
+        .encode-btn:active {
+            background: #0F766E;
+        }
+        .decode-btn {
+            background: #3B82F6;
+            color: #F3F4F6;
+            transition: all 0.2s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+        }
+        .decode-btn:hover {
+            background: #60A5FA;
+            transform: translateY(-1px);
+        }
+        .decode-btn:active {
+            background: #2563EB;
+        }
+        .icon-btn {
+            background: #6B7280;
+            color: #F3F4F6;
+            transition: all 0.2s ease;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+        .icon-btn:hover {
+            background: #9CA3AF;
+            transform: scale(1.05);
+        }
+        #timeseed-togglePepperButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.75rem;
+            padding: 0;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            position: absolute;
+        }
+        textarea, input {
+            background: #374151;
+            border: 1px solid #6B7280;
+            color: #F3F4F6;
+            transition: all 0.2s ease;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        textarea:focus, input:focus {
+            border-color: #0D9488;
+            box-shadow: 0 0 6px rgba(13, 148, 136, 0.3);
+            outline: none;
+        }
+        #timeseed-inputCode {
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-right: 3rem;
+        }
+        #timeseed-pepperInput {
+            font-family: monospace;
+        }
+        #lockit-log, #timeseed-log {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 200px;
+            opacity: 1;
+            overflow: auto;
+            background: #374151;
+            border: 1px solid #6B7280;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.75rem;
+            font-family: monospace;
+            display: block;
+        }
+        .log-toggle {
+            background: #0D9488;
+            color: #F3F4F6;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        .log-toggle:hover {
+            background: #14B8A6;
+        }
+        .hidden-text {
+            color: transparent !important;
+            text-shadow: 0 0 5px rgba(243, 244, 246, 0.5);
+        }
+        .tooltip {
+            position: relative;
+        }
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #374151;
+            color: #F3F4F6;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .progress-container {
+            width: 100%;
+            background: #374151;
+            border-radius: 0.5rem;
+            margin: 0.75rem 0;
+            overflow: hidden;
+            height: 1rem;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 1rem;
+            background: linear-gradient(45deg, #0D9488, #3B82F6);
+            text-align: center;
+            color: #F3F4F6;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            transition: width 0.2s ease;
+        }
+        .key-card, .long-term-card {
+            background: #374151;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            border: 1px solid #6B7280;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .key-text {
+            font-family: monospace;
+            font-size: 0.875rem;
+            overflow-wrap: break-word;
+            white-space: normal;
+            flex: 1 1 auto;
+            min-width: 0;
+            margin-right: 0.5rem;
+            color: #F3F4F6;
+            background: #2D2D2D;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            resize: none;
+            height: 2.5rem;
+            line-height: 1.2;
+        }
+        .key-text[readonly] {
+            cursor: text;
+        }
+        .key-text:focus {
+            border-color: #0D9488;
+            box-shadow: 0 0 6px rgba(13, 148, 136, 0.3);
+        }
+        .pass-indicator {
+            font-size: 0.75rem;
+            color: #D1D5DB;
+            margin-right: 0.5rem;
+            align-self: center;
+        }
+        .copy-btn {
+            background: #0D9488;
+            color: #F3F4F6;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            min-width: 3rem;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            background: #14B8A6;
+        }
+        .copy-btn:active {
+            background: #0F766E;
+        }
+        .info-table {
+            font-size: 0.875rem;
+            width: 100%;
+            color: #D1D5DB;
+        }
+        .info-table tr td:first-child {
+            font-weight: 500;
+            padding-right: 0.5rem;
+        }
+        .info-table td {
+            padding: 0.25rem 0;
+        }
+        .countdown-timer {
+            font-size: 0.875rem;
+            color: #D1D5DB;
+            display: inline;
+        }
+        .error, .success {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        .error { color: #F87171; }
+        .success { color: #10B981; }
+        footer {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        footer a {
+            color: #D1D5DB;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+        footer a:hover {
+            color: #14B8A6;
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .gap-2 {
+            gap: 0.5rem;
+        }
+        .justify-center {
+            justify-content: center;
+        }
+        .relative {
+            position: relative;
+        }
+        .absolute {
+            position: absolute;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+        .mt-4 {
+            margin-top: 1rem;
+        }
+        .text-sm {
+            font-size: 0.875rem;
+        }
+        .text-lg {
+            font-size: 1.125rem;
+        }
+        .font-semibold {
+            font-weight: 600;
+        }
+        .font-mono {
+            font-family: monospace;
+        }
+        .resize-none {
+            resize: none;
+        }
+        .hidden {
+            display: none;
+        }
+        #timeseed-inputStatus {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.125rem;
+            pointer-events: none;
+            z-index: 10;
+        }
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .tab-btn {
+                padding: 0.5rem 1rem;
+            }
+            .title {
+                font-size: 1.75rem;
+            }
+            textarea, input {
+                font-size: 1rem;
+            }
+            .encode-btn, .decode-btn, .copy-btn {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+            .key-card, .long-term-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .copy-btn {
+                padding: 0.5rem;
+                width: 100%;
+                max-width: 120px;
+                align-self: flex-end;
+            }
+            .pass-indicator {
+                margin-bottom: 0.25rem;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">
+            <span class="emoji">🔒</span> LockIt & TimeSeed (coming soon) <span class="emoji">🌱</span>
+        </h1>
+
+      </body>
+</html>
