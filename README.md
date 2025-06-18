@@ -1,5 +1,5 @@
-# TimeSeed  - A TimeSync Key Generator
-A seed generator for Seeds that generate AES-GCM encryption 
+# TimeSeed  - A Time Synchronize passowrd derivation system without middlemen 
+A seed string for generating secure AES-GCM encryption messages over any network.
 
 A web-based tool to generate 256-bit AES-GCM keys using a shared 50-character seed. The application supports secure seed generation, optional pepper passphrases, and daily/long-term key derivation with a user-friendly interface. It gives people the ability to just use it as an ordinary encryption tool, but also as a means to "sync" passwords with each other over great distances, using a one-time shared secret or a timeseed only. This gives people a versatile tool that doesn't depend on an ID, central server or set of public/private keys. 
 You have a timessed (+optional pepper password) , you have the derived passwords (daily/6 months/custom date) and you have the ability to just use your own passwords directly (or randomly generate one)
