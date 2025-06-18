@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact TimeSeed</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: #2D2D2D; /* Dark background from LockIt */
+      color: #F3F4F6; /* Light text */
+    }
+    h1, h2 {
+      color: #0D9488; /* Teal accent for headers */
+      font-weight: 600;
+    }
+    code {
+      background: #374151; /* Dark container for inline code */
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: monospace;
+      color: #F3F4F6;
+    }
+    pre {
+      background: #374151; /* Dark container for code blocks */
+      padding: 1em;
+      overflow-x: auto;
+      border-left: 4px solid #0D9488; /* Teal accent border */
+      border-radius: 3px;
+      color: #F3F4F6;
+      font-family: monospace;
+      white-space: pre; /* Default for preserving formatting */
+    }
+    pre.wrapped-pre {
+      white-space: pre-wrap; /* Allows wrapping while preserving newlines */
+      overflow-wrap: break-word; /* Ensures long words break */
+      word-wrap: break-word; /* Fallback for older browsers */
+      overflow-x: hidden; /* Prevents horizontal scrollbar */
+    }
+    .highlight {
+      background: rgba(13, 148, 136, 0.2); /* Subtle teal highlight */
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      color: #F3F4F6;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #6B7280; /* Gray border */
+      margin: 1.5rem 0;
+    }
+    small {
+      color: #D1D5DB; /* Secondary text color */
+    }
+    p, li {
+      color: #F3F4F6;
+    }
+    strong {
+      color: #F3F4F6;
+      font-weight: 600;
+    }
+    em {
+      color: #D1D5DB;
+    }
+    footer {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    footer a {
+      color: #D1D5DB;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    footer a:hover {
+      color: #14B8A6;
+    }
+  </style>
+</head>
+<body>
+  <h1>Contact TimeSeed</h1>
+  <p>We value your feedback, questions, or suggestions about TimeSeed. Reach out to us securely using the following contact method:</p>
+
+ <h2>Contact via Nostr</h2>
+<p>To get in touch, use Nostr with our public key or visit our profile:</p>
+<div class="nostr-key-container">
+  <pre class="wrapped-pre">npub1sec6degc3ae7warveuxaz6dlffnc2sutwtqjr7pmll7sf7ypjngsd4p0l7</pre>
+  <button class="copy-btn" onclick="copyNostrKey()">📋 Copy</button>
+</div>
+<p>Or visit our Nostr profile: <a href="https://primal.net/p/nprofile1qqsgvudxu5vg7ul8w3kv7rw3dxl55eu9gw9h9sfplqalllgylzqef5gndpqdh" class="nostr-link">Primal Profile</a></p>
+
+  <h2>Secure Communication</h2>
+  <p>For enhanced privacy, you can encrypt your message using TimeSeed's long-term (6-month) password.<br> This is the TimeSeed string to use:</p>
+  <pre class="wrapped-pre">aNoiZp1dyyu2zzIUBSQ0Q5LiVvJMUNBEbShCY6kkeM5VJGjBgv</pre>
+  <p>Derive the encryption password for the current 6-month period (e.g., January 1st or July 1st, depending on the date) using the TimeSeed system, and encrypt your message before sending it via Nostr (no pepper password necessary for this, just the derived long term password).</p>
+
+  <hr />
+  <p style="text-align: center;"><small>TimeSeed is free, open-source, and designed for a future where privacy is a human right.</small></p>
+<script>
+function copyNostrKey() {
+  const key = 'npub1sec6degc3ae7warveuxaz6dlffnc2sutwtqjr7pmll7sf7ypjngsd4p0l7';
+  navigator.clipboard.writeText(key).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy', 2000);
+  }).catch(err => {
+    console.error('Failed to copy key:', err);
+    alert('Failed to copy key. Please select and copy manually.');
+  });
+}
+</script>
+  <footer class="text-sm text-[#D1D5DB] mt-4 text-center">
+    <a href="https://github.com/avbpodcast/timeseed.io" class="hover:text-[#14B8A6]">Source</a> | 
+    <a href="https://timeseed.io/TSexplained.html" class="hover:text-[#14B8A6]">How does it work?</a> |
+    <a href="https://timeseed.io/donate" class="hover:text-[#14B8A6]">Fund Development</a> | 
+    <a href="https://timeseed.io/#" onclick="downloadPage()" class="hover:text-[#14B8A6]">Download</a> | 
+    <a href="https://timeseed.io/contact.html" class="hover:text-[#14B8A6]">Contact</a> |  
+    version 1.13 
+  </footer>
+</body>
+</html>
