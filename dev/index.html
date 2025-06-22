@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeSeed.io</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title flex items-center gap-4">
+            <img src="logo_small.png" alt="Logo" class="logo">
+            TimeSeed.io
+        </h1>
+
+        <!-- Tab Navigation -->
+        <div class="tab-list" role="tablist">
+            <button class="tab-btn active" id="lockit-tab" role="tab" aria-selected="true" aria-controls="lockit-content">🔒 LockIt</button>
+            <button class="tab-btn" id="timeseed-tab" role="tab" aria-selected="false" aria-controls="timeseed-content">🌱 Time-Seed</button>
+        </div>
+
+        <!-- LockIt Tab Content -->
+        <div id="lockit-content" class="tab-content active" role="tabpanel" aria-labelledby="lockit-tab">
+            <section aria-labelledby="lockit-password-heading" class="mb-4">
+                <h2 id="lockit-password-heading" class="text-lg font-semibold mb-2">Set Your Key</h2>
+                <div class="lockit-key-container">
+                    <input type="text" id="lockit-key" class="w-full rounded-lg font-mono lockit-key-input" placeholder="Drop your secret key (max 100 chars)" maxlength="100" autofocus>
+                    <button id="lockit-generateKey" class="icon-btn rounded-lg tooltip" data-tooltip="🔄 Generate random Key" aria-label="Generate new key" onclick="lockitGenerateKey()">🔄</button>
+                </div>
+            </section>
+            <section aria-labelledby="lockit-input-heading" class="mb-4">
+                <h2 id="lockit-input-heading" class="text-lg font-semibold mb-2">Encode or Decode</h2>
+                <div class="lockit-input-mode-toggle mb-2">
+                    <label class="input-label text-sm font-semibold">Input as:</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="lockit-input-toggle" aria-label="Switch to file mode" onchange="lockitSwitchMode(this.checked ? 'file' : 'text')">
+                        <span class="slider">
+                            <span class="toggle-option toggle-text">Text</span>
+                            <span class="toggle-option toggle-file">File</span>
+                        </span>
+                    </div>
+                </div>
+                <div id="lockit-text-input" class="lockit-input-mode active">
+                    <textarea id="lockit-inputText" class="w-full p-2 rounded-lg resize-none" placeholder="Type text to encode or paste to decode" rows="4"></textarea>
+                    <div id="lockit-inputStatus" class="text-sm text-center mt-2" style="color: rgb(13, 148, 136);" aria-live="polite">Detected: Plain text</div>
+                </div>
+                <div id="lockit-file-input" class="lockit-input-mode hidden">
+                    <div class="file-input-wrapper">
+                        <input type="file" id="lockit-fileInput" class="hidden" aria-label="File input for encoding/decoding" disabled>
+                        <button id="lockit-fileButton" class="encode-btn w-full text-left disabled" aria-label="Browse for file" disabled>Choose File</button>
+                    </div>
+                    <div id="lockit-fileStatus" class="text-sm text-center mt-2" style="color: #D1D5DB;" aria-live="polite">No file selected</div>
+                    <div id="lockit-fileProgress" class="progress-container hidden">
+                        <div class="progress-bar" id="lockit-progressBar" aria-live="polite">0%</div>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-2 justify-center">
+                    <button class="encode-btn px-4 py-2 rounded-lg font-semibold" onclick="lockitEncrypt()" aria-label="Encrypt input" data-tooltip="Enter text or select a file to enable">Encode It 🔒</button>
+                    <button class="decode-btn px-4 py-2 rounded-lg font-semibold" onclick="lockitDecrypt()" disabled aria-label="Decrypt input" data-tooltip="Enter encoded text or select a .tsx file to enable">Decode It 🔓</button>
+                </div>
+            </section>
+            <section aria-labelledby="lockit-output-heading" class="mb-4">
+                <h2 id="lockit-output-heading" class="text-lg font-semibold mb-2">Result <span id="lockit-lockIcon">🔓</span></h2>
+                <textarea id="lockit-output" class="w-full p-2 rounded-lg resize-none" readonly rows="4"></textarea>
+                <div class="flex gap-2 mt-2 justify-center">
+                    <button class="icon-btn p-2 rounded-lg tooltip" data-tooltip="📋 Copy Output" aria-label="Copy output" onclick="lockitCopyOutput()">📋</button>
+                    <button class="icon-btn p-2 rounded-lg tooltip" data-tooltip="🗑️ Clear Fields" aria-label="Clear fields" onclick="lockitClearFields()">🗑️</button>
+                </div>
+            </section>
+            <div class="mb-4">
+                <button class="log-toggle" onclick="lockitToggleLog()">Show/Hide Logs</button>
+                <div id="lockit-log" class="mt-2 p-2 rounded-lg text-sm font-mono">[2025-06-21T19:26:00.000Z] LockIt tab loaded</div>
+            </div>
+        </div>
+
+        <!-- Time-Seed Tab Content -->
+        <div id="timeseed-content" class="tab-content" role="tabpanel" aria-labelledby="timeseed-tab">
+            <section aria-labelledby="timeseed-heading" class="mb-4">
+                <h2 id="timeseed-heading" class="text-lg font-semibold mb-2">Time-Seed Key Generator 🌱</h2>
+                <p class="text-sm text-[#D1D5DB] mb-2">⚠️ Store your seed and keys securely and never share them!</p>
+                <div class="mb-4">
+                    <button class="encode-btn px-4 py-2 rounded-lg font-semibold" onclick="timeseedGenerateInputCode()">Generate Seed</button>
+                </div>
+                <div id="timeseed-progressOutput" class="mb-4"></div>
+                <div id="timeseed-entropyOutput" class="mb-4"></div>
+                <div id="timeseed-inputCodeContainer" class="flex flex-col gap-2">
+                    <label for="timeseed-inputCode" class="text-sm font-semibold">Enter TimeSeed</label>
+                    <div class="relative flex items-center">
+                        <input type="text" id="timeseed-inputCode" class="w-full p-2 rounded-lg font-mono" placeholder="Paste or enter 50-character seed" maxlength="50" aria-label="50-character seed input" style="padding-right: 3rem;">
+                        <span id="timeseed-inputStatus" class="absolute right-0.5rem top-50% transform -translate-y-50% text-lg"></span>
+                    </div>
+                    <label for="timeseed-pepperInput" class="text-sm font-semibold">Optional Pepper (Passphrase)</label>
+                    <div class="relative flex items-center">
+                        <input type="password" id="timeseed-pepperInput" class="w-full p-2 rounded-lg font-mono" placeholder="Enter a secret passphrase (optional)" aria-label="Optional pepper passphrase">
+                        <button id="timeseed-togglePepperButton" class="icon-btn p-2 rounded-lg tooltip absolute right-2 top-1/2 transform -translate-y-1/2" data-tooltip="👀 Show Pepper" aria-label="Show pepper" onclick="timeseedTogglePepperVisibility()">👁️</button>
+                    </div>
+                    <p class="text-sm text-[#D1D5DB]">Add a passphrase for extra security. Must match when used.</p>
+                    <div class="flex gap-2">
+                        <button class="encode-btn px-4 py-2 rounded-lg font-semibold" id="timeseed-submitSeedButton" onclick="timeseedSubmitSeed()" disabled aria-label="Submit seed">Submit Seed</button>
+                        <button class="decode-btn px-4 py-2 rounded-lg font-semibold" onclick="timeseedClearInputs()" aria-label="Clear seed and pepper inputs">Clear</button>
+                    </div>
+                </div>
+                <div id="timeseed-output" class="mt-4" data-key="" data-long-term-key="">
+                    <div id="timeseed-keyCards"></div>
+                    <div id="timeseed-infoTable"></div>
+                </div>
+                <div class="flex gap-2 mt-2 justify-center">
+                    <button class="icon-btn p-2 rounded-lg tooltip" data-tooltip="📅 Select Past Date" aria-label="Select past date" onclick="timeseedShowDatePicker()">📅</button>
+                    <input type="text" id="timeseed-datePicker" class="hidden" placeholder="Select date" aria-label="Select date for past key" readonly>
+                    <button class="icon-btn p-2 rounded-lg tooltip" data-tooltip="💾 Download it" aria-label="Download seed and keys" onclick="timeseedDownloadSeed()">💾</button>
+                </div>
+                <div id="timeseed-error" class="error mt-2"></div>
+            </section>
+            <div class="mb-4">
+                <button class="log-toggle" onclick="timeseedToggleLog()">Show/Hide Logs</button>
+                <div id="timeseed-log" class="mt-2 p-2 rounded-lg text-sm font-mono">[2025-06-21T19:26:00.000Z] Time-Seed tab loaded</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-sm text-[#D1D5DB] mt-4 text-center">
+        <a href="https://github.com/avbpodcast/timeseed.io" class="hover:text-[#14B8A6]">Source</a> | 
+        <a href="https://timeseed.io/TSexplained.html" class="hover:text-[#14B8A6]">How does it work?</a> | 
+        <a href="https://timeseed.io/donate" class="hover:text-[#14B8A6]">Fund Development</a> | 
+        <a href="https://timeseed.io/#" onclick="downloadPage()" class="hover:text-[#14B8A6]">Download</a> | 
+        <a href="https://timeseed.io/contact.html" class="hover:text-[#14B8A6]">Contact</a> | 
+        version 1.13
+    </footer>
+			<!-- Giving credit to timeseed.io 
+		This software is © 2025 
+		@AVB_21 
+		Licensed under the GNU GPL v3. See LICENSE for details. 
+		
+This project (timeseed.io) is licensed under the GNU General Public License v3.0 (GPLv3).
+
+You are free to use, copy, modify, and distribute this software, 
+but you must:
+- Give appropriate credit to the original author ( @AVB_21 / timeseed.io )
+- Include this license in all copies or substantial portions of the software.
+- Distribute modified versions under the same GPLv3 license.
+
+There is no warranty for this software. Use at your own risk.
+Full license: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+</body>
+</html>

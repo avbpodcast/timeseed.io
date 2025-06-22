@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeSeed - Coming Soon</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #1a1a1a; /* Very dark grey */
+            color: #e0e0e0; /* Light grey text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #2a2a2a; /* Slightly lighter grey for contrast */
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+        }
+        .title {
+            font-size: 2.2em;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+        .emoji {
+            font-size: 1.2em;
+        }
+        .description {
+            font-style: italic;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #c0c0c0;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .title {
+                font-size: 1.8em;
+            }
+            .description {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">
+            <span class="emoji">🔒</span> LockIt & TimeSeed <span class="emoji">🌱</span><br>(coming soon)
+        </h1>
+        <p class="description">
+            Timeseed will be an open-source, secure, and private tool to encrypt and derive your passwords from a single seed string.<br><br>
+            Standalone, with re-keying, no middlemen, no central server, no public keys—no links to your identity like email or phone numbers.<br><br>
+            Built for freedom in a value-for-value model—Timeseed protects your keys, your time, your sovereignty.
+        </p>
+    </div>
+</body>
+</html>
