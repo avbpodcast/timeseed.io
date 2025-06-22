@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TimeSeed Quick Start Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #2D2D2D;
+            color: #F3F4F6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+            margin: 0;
+        }
+
+        .container {
+            background: #374151;
+            border-radius: 0.75rem;
+            max-width: 800px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #0D9488;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #F3F4F6;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        ol, ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+        }
+
+        .tip, .support {
+            background: #2D2D2D;
+            border-left: 4px solid #0D9488;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        a {
+            color: #3B82F6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #60A5FA;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #0D9488;
+            color: #F3F4F6;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            transition: background 0.2s ease, transform 0.2s ease;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background: #14B8A6;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            background: #0F766E;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔐 Quick Start Guide – TimeSeed</h1>
+
+        <h2>Encrypting a message or file:</h2>
+        <ol>
+            <li>Go to the <strong>TimeSeed</strong> tab and click <strong>"Generate"</strong> to create a new 50-character seed.<br />(Or paste an existing one.)</li>
+            <li><strong>(Optional)</strong> Enter a Pepper Password for added security. Keep it private.</li>
+            <li>Click <strong>"Submit Seed"</strong> to generate:<br />
+                - A <strong>daily password</strong><br />
+                - A <strong>6-month password</strong>
+            </li>
+            <li>Click <strong>"Use in LockIt"</strong> next to the password you want to use.</li>
+            <li>Go to the <strong>LockIt</strong> tab.</li>
+            <li>Type your message or upload a file (max 10MB) to encrypt it.</li>
+            <li>Send the encrypted result to your recipient.</li>
+        </ol>
+
+        <h2>Decrypting a message or file:</h2>
+        <ol>
+            <li>Go to the <strong>TimeSeed</strong> tab and enter the shared TimeSeed.</li>
+            <li><strong>(Optional)</strong> Enter the Pepper Password if it was agreed upon.</li>
+            <li>Click <strong>"Submit Seed"</strong> to generate the passwords.</li>
+            <li>Click <strong>"Use in LockIt"</strong> next to the correct password.</li>
+            <li>Go to the <strong>LockIt</strong> tab.</li>
+            <li>Paste or upload the encrypted content.</li>
+            <li>Read or download the decrypted result.</li>
+        </ol>
+
+        <div class="tip">
+            <strong>💡 Tips:</strong>
+            <ul>
+                <li>Already have a password? Go straight to the <strong>LockIt</strong> tab.</li>
+                <li>Need a one-time password? Generate a secure password directly in <strong>LockIt</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="support">
+            <strong>❤️ Support the Project:</strong><br />
+            If you like TimeSeed and want to support ongoing development,<br />
+            visit <a href="https://timeseed.io/donate" target="_blank">timeseed.io/donate</a>
+        </div>
+
+        <a href="index.html" class="btn">⬅ Back to TimeSeed</a>
+    </div>
+</body>
+
+</html>
