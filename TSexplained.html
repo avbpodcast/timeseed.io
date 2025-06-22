@@ -3,77 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TimeSeed explained</title>
+  <title>TimeSeed Explained</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      max-width: 800px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      max-width: 600px;
       margin: 0 auto;
-      padding: 2rem;
-      background-color: #2D2D2D; /* Dark background from LockIt */
-      color: #F3F4F6; /* Light text */
+      padding: 2rem 1rem;
+      background-color: #1F2937;
+      color: #E5E7EB;
+      font-size: 16px;
     }
-    h1, h2 {
-      color: #0D9488; /* Teal accent for headers */
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #2DD4BF;
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      font-size: 1.4rem;
       font-weight: 600;
+      color: #2DD4BF;
+      margin: 2rem 0 1rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #4ADE80;
+      margin: 2rem 0 1rem;
+      padding: 0.5rem;
+      background: rgba(45, 212, 191, 0.05);
+      border-radius: 4px;
+    }
+    p {
+      margin-bottom: 1.25rem;
+      color: #E5E7EB;
     }
     code {
-      background: #374151; /* Dark container for inline code */
-      padding: 2px 4px;
-      border-radius: 3px;
-      font-family: monospace;
-      color: #F3F4F6;
+      background: #111827;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      color: #D1D5DB;
+      font-size: 0.9rem;
     }
     pre {
-      background: #374151; /* Dark container for code blocks */
-      padding: 1em;
+      background: #111827;
+      padding: 1rem;
       overflow-x: auto;
-      border-left: 4px solid #0D9488; /* Teal accent border */
-      border-radius: 3px;
-      color: #F3F4F6;
-      font-family: monospace;
+      border-left: 3px solid #2DD4BF;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-family: 'Menlo', 'Consolas', monospace;
+      color: #D1D5DB;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
     .highlight {
-      background: rgba(13, 148, 136, 0.2); /* Subtle teal highlight */
-      padding: 0.2rem 0.4rem;
-      border-radius: 3px;
-      color: #F3F4F6;
+      background: rgba(45, 212, 191, 0.1);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      color: #E5E7EB;
+    }
+    .warning {
+      color: #F97316;
+      font-style: italic;
+      margin: 1rem 0;
+      padding: 0.5rem;
+      background: rgba(249, 115, 22, 0.1);
+      border-radius: 4px;
+    }
+    .call-to-action {
+      color: #2DD4BF;
+      font-style: italic;
+      font-weight: 500;
+    }
+    .example-image {
+      max-width: 150px; /* Adjusted to 150px maximum width */
+      height: auto;
+      display: block;
+      margin: 1rem auto;
+      border: none;
+    }
+    a {
+      color: #2DD4BF; /* Consistent teal for all links */
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #5EEAD4; /* Hover effect matching footer links */
     }
     ul {
       list-style-type: disc;
       padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+      color: #E5E7EB;
     }
     hr {
       border: 0;
-      border-top: 1px solid #6B7280; /* Gray border */
-      margin: 1.5rem 0;
+      border-top: 1px solid #4B5563;
+      margin: 2rem 0;
     }
     small {
-      color: #D1D5DB; /* Secondary text color */
-    }
-    p, li {
-      color: #F3F4F6;
+      color: #9CA3AF;
+      font-size: 0.85rem;
     }
     strong {
-      color: #F3F4F6;
       font-weight: 600;
+      color: #E5E7EB;
     }
     em {
       color: #D1D5DB;
+      font-style: italic;
     }
     footer {
-      margin-top: 1rem;
+      margin-top: 2rem;
       text-align: center;
+      font-size: 0.85rem;
+      color: #9CA3AF;
     }
     footer a {
-      color: #D1D5DB;
+      color: #2DD4BF;
       text-decoration: none;
       margin: 0 0.5rem;
+      transition: color 0.2s;
     }
     footer a:hover {
-      color: #14B8A6;
+      color: #5EEAD4;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 1.5rem 1rem;
+        font-size: 15px;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+      h3 {
+        font-size: 1.15rem;
+        padding: 0.4rem;
+      }
+      .example-image {
+        max-width: 120px; /* Slightly smaller on mobile */
+      }
     }
   </style>
 </head>
@@ -81,22 +161,25 @@
   <h1>Welcome to the TimeSeed System</h1>
   <p>Since the late 1990s, we've had PGP to exchange keys and encrypt messages or files. Now there’s <strong>TimeSeed</strong>—a simple, privacy-focused alternative that doesn’t rely on centralized servers or key pairs.</p>
 
-  <p>With TimeSeed, you only use pre-shared secrets. There’s no personal information involved—no email, fingerprint, ID, phone number, or hardware wallet required. Just pure cryptography, built for privacy. It's also built for flexibility, using a two-layer setup:</p>
-  <p><span class="highlight">TimeSeed + Pepper password → Derived encryption password</span></p>
+  <p>With TimeSeed, you only use pre-shared secrets. As long as you and your correspondent(s) know a shared timeseed (can even be public if there's absolutely no other option), you’ll be able to start communication and time different passwords with differentiators like a “pepper” password that you both know.</p>
+  <p>In TimeSeed, there’s no personal information involved—no email, fingerprint, ID, phone number, or hardware wallet. No central server or authority is required. It’s just pure cryptography, built for privacy. It’s also built for flexibility, using a two-layer setup:</p>
+  <p><span class="highlight">TimeSeed + Pepper password → Derived (time-based) encryption password</span></p>
 
   <h2>How TimeSeed Works</h2>
-  <p>TimeSeed is more than a basic encrypt/decrypt tool—it's a deterministic password generator with built-in re-keying using pre-shared secrets.</p>
+  <p>TimeSeed is more than a basic encrypt/decrypt tool—it’s a deterministic password generator with built-in re-keying using pre-shared secrets.</p>
   <p>From a single secret (the TimeSeed) and an optional pepper password, you can derive strong encryption keys on any device, online or offline.</p>
   <p>It uses <strong>AES-GCM encryption with salting</strong>—verifiable, standard cryptography. All logic is contained in one single HTML file. No hidden components, no black boxes.</p>
 
   <h2>The Workflow</h2>
   <h3>1. Generate a TimeSeed</h3>
   <p>Generate a random 50-character string on the open-source site. This is your TimeSeed—the root of all your derived keys.</p>
+  <p class="warning"><i>Timeseeds are only used on the Timeseed tab/section, never on the Lockit tab/section!</i></p>
 
   <h3>2. Add a Pepper Password (Optional)</h3>
   <p>To separate contexts (by person, app, or situation), add a pepper password to the TimeSeed.</p>
   <p>Best practice: share the TimeSeed securely, and exchange the pepper separately—over a call or in person.</p>
   <p>You can even agree on a predefined list and only use specific “slots” from it for added secrecy.</p>
+  <p>In some rare cases, the timeseed can be shared publicly, and then the differentiator is the pepper-password (it's versatile, you can use it anyway you like)</p>
 
   <h3>3. Derive Passwords</h3>
   <p>Combine your TimeSeed + pepper to derive a <strong>64-character encryption password</strong>.</p>
@@ -114,13 +197,15 @@
     <li>Fully open source, browser-based, and reproducible.</li>
   </ul>
 
-  <p><strong>Try it.</strong> <br />
-  <strong>Rebuild it.</strong> <br />
-  <strong>Trust it</strong> — because it's open, auditable, and designed for a world where privacy matters.</p>
+  <p><strong>Try it.</strong><br />
+  <strong>Rebuild it.</strong><br />
+  <strong>Trust it</strong>—because it’s open, auditable, and designed for a world where privacy matters.</p>
 
   <h2>Example</h2>
+  <h3>Message Encryption Example</h3>
   <p><strong>TimeSeed:</strong><br />
   <code>R8prjIjMdg7mr2lL5a3NtYS3Jh43WqCHfbNxDIOtFDguFMAis2</code></p>
+  <p class="warning"><i>Don't paste this in the "Lockit" section (that's for passwords). Place the timeseed above, in the Timeseed section!!!</i></p>
 
   <p><strong>Pepper password:</strong><br />
   <code>encrypt-everything</code></p>
@@ -129,22 +214,31 @@
   <pre>35efd85af61e1f2853b4f2afa3e1edc2f3eeb4761e5da89e9ef7e52dbae4eb8f</pre>
 
   <p><strong>Encrypted message:</strong></p>
-  <code>
+  <pre>
 53b37be4b7001f7e744d5882993db2946e105e7bde566559fd47963ba43a171a59a21a96bc1e1336773514fd54cfb6e6463a9b44d1c937a7c0fd68da117080b01c77a923f9c592ad7a9e8407f27419010d21743fa3c947cf4f40e37679ee6573e3c5313dda7851fc80d658c59051c296247c1be7de33aa099b926d77fa619fd1ea240d0060c6c7f2711fd07eccbd1eaf33ff31029faac4699ffa7a4f9dba35b539a602bdf52a4e1a009bd8dc187e8a7b2737921f020f513b67f0e5fe1f479f7bf05c4ef5baa6bed8ac639372a3f3d28514e32216f956b48ad3e4b0c8c27a9fde7acd298812bac60d457145f9ec48c25c5897a5a226475462a5a4f4782d30a5fab07d00bda1235a42d778b94e9646cdcef189c070378253ce5ca74b646c0ea1d54e23b8496304034d3192d3eed27ae74815c9041db514cc24b1672adccac1ece8fac536c9fb2daec810afd74f4bda88feca29e93a208f5c8817f773925b57adbc2c678681091d84a516e8db420b3c
-  </code>
+  </pre>
 
   <p><strong>Decrypted output:</strong><br />
-  <em>"Test message created in June 2025 for  ...."</em></p>
+  <em>"Test message created in June 2025 for ...."</em></p>
+
+  <h3>File Encryption Example</h3>
+  <p>This image was encoded with the derived encryption password above (<code>35efd...</code>). </p>
+  <p>You can download the encoded .tsx file, and test decoding it: <br><a href="https://archive.org/download/tower_small/tower_small.tsx">download tower_small.tsx</a></p>
+  <p>The full original image is shown below for reference.</p>
+  The original file has the MD5 checksum: <code>AF200B6269E2783CBE2C6D027F3F2E47</code> You'll get the exact same checksum when you decrypt the file as it's encrypted/decrypted in a lossless fashion. <p><i><small>If you don't know how to check a file's checksum, here's an <a href="https://freefileviewers.com/hash/" target="_blank" rel="noopener noreferrer">online MD5 hash checker</a>.</i></small></p>
+<p>
+  <p class="call-to-action">See if you can decrypt the .tsx file to match the original image!</p>
+  <p><a href="https://archive.org/download/tower_small_image/tower_small.png"><img src="https://archive.org/download/tower_small_image/tower_small.png" alt="Tower small image" class="example-image"></a></p>
 
   <hr />
   <p style="text-align: center;"><small>TimeSeed is free, open-source, and designed for a future where privacy is a human right.</small></p>
 
-  <footer class="text-sm text-[#D1D5DB] mt-4 text-center">
-    <a href="https://github.com/avbpodcast/timeseed.io" class="hover:text-[#14B8A6]">Source</a> | 
-    <a href="https://timeseed.io/" class="hover:text-[#14B8A6]">Home</a> |
-    <a href="https://timeseed.io/donate" class="hover:text-[#14B8A6]">Fund Development</a> | 
-    <a href="https://timeseed.io/userstories.html" class="hover:text-[#14B8A6]">User stories</a> | 
-    <a href="https://timeseed.io/contact.html" class="hover:text-[#14B8A6]">Contact</a> |  
+  <footer>
+    <a href="https://github.com/timeseed/timeseed.io">Source</a> | 
+    <a href="https://timeseed.io/">Home</a> |
+    <a href="https://timeseed.io/donate">Fund Development</a> | 
+    <a href="https://timeseed.io/userstories.html">User Stories</a> | 
+    <a href="https://timeseed.io/contact.html">Contact</a> |  
     version 1.13 
   </footer>
 </body>
