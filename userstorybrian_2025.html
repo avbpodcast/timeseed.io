@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeSeed: A User Story</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; max-width: 800px; }
+    h1, h2, h3 { color: #333; }
+    pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    code { font-family: monospace; }
+    ul { margin: 10px 0; }
+    .highlight { font-weight: bold; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    hr { margin: 20px 0; }
+    footer { font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>TimeSeed: Protecting Truth in a Surveillance State</h1>
+
+  <h2>The Story</h2>
+  <p>
+    Adam, a tech-savvy journalist for a pro-privacy magazine, receives a cryptic letter from a colleague in Country X, a nation under a totalitarian regime. The letter hints that his old university friend, Beom-su ("Brian"), a political dissident known for exposing the regime’s abuses, has vanished after attending a privacy-focused meetup. Adam knows Brian is in hiding, pursued by GaX, Country X’s surveillance agency that monitors communications and tracks dissidents.
+  </p>
+
+  <h3>Key Characters</h3>
+  <ul>
+    <li><span class="highlight">Adam</span>: A journalist based in a democratic country, privacy-conscious, and Brian’s former university friend.</li>
+    <li><span class="highlight">Beom-su ("Brian")</span>: A Korean student turned dissident, targeted by GaX for his exposés on Country X’s regime.</li>
+    <li><span class="highlight">GaX</span>: Country X’s government agency, notorious for intercepting communications and tracking dissidents.</li>
+  </ul>
+
+  <h2>The Challenge: A Cryptic Message</h2>
+  <p>
+    One day, Adam receives an encrypted message from an anonymous source—likely Brian—via a secure email drop. The message includes a link to <a href="https://timeseed.io">TimeSeed.io</a> and a 50-character TimeSeed string:
+  </p>
+  <pre>R8prjIjMdg7mr2lL5a3NtYS3Jh43WqCHfbNxDIOtFDguFMAis2</pre>
+  <p>
+    The message cryptically references a shared secret from their university days, a pepper password: <code>The Anaconda</code>, tied to an apartment building complex they frequented. It also hints at a date—Adam’s mother’s birthday, March 15, 2025—without explicitly stating it ("Mother’s birthday is coming up, will she be back in town soon?"). Adam is instructed to use these to derive an encryption key and decrypt the message.
+  </p>
+
+  <h2>Step 1: Deriving the Encryption Key</h2>
+  <p>
+    Adam downloads the open-source TimeSeed.io HTML file, verifies its integrity, and opens it on an air-gapped (offline) device for maximum security. He inputs the TimeSeed string, the pepper password <code>The Anaconda</code>, and the date March 15, 2025. Using TimeSeed’s AES-GCM algorithm, the tool generates a 64-character encryption key:
+  </p>
+  <pre>bbe7b5b4a5e08a373616d8dcf56e93e26e3f743dbe4b0225fc7f4ac0c08d39a1</pre>
+  <p>
+    This key, unique to the TimeSeed, pepper, and date combination, is different for every message. It’s secured against GaX’s surveillance, as the secrets were never shared online and cannot be decrypted within reasonable timeframes through side-channel attacks or brute-forcing.
+  </p>
+
+  <h2>Step 2: Decrypting Brian’s Message</h2>
+  <p>
+    Adam pastes the included encrypted message (ciphertext) from Brian into TimeSeed’s decryption field:
+  </p>
+  <pre>4a667bde8d1697201a8a41303f862fc3619c9b2df7a8da4906f3adffe0b8f4f9fac1d4707d785e3c042f7617021efdbd3eb328525ba68eda45be6567be04289fa893bc66ff0dbd732c6665e2b29662d1f44f63330e875653ab12078b9074ef450ade9753617da798a25f6ab1e38edda81c04b59bbefae0b0ee71492763485da43fdc2b3c86e03069d69d42066114e095c2072515e5c4456ac743c478a6c363f2974cdd46fead45c6c4a341202a0f1cc52a012f0cddcca5d7151a2b093aa878bfa6067a978422f943b48d54719a00fa99969e20c53a4598f7c62b5282a9367d3962490317c7be6f2e16300fe368c2549d819d208c64e693398c66084611279b15cdd7a82cf56963d1e54b211d10a2f41bc81adc2069e0c7f79a2fedbbbe6510512b125479abf8e33559f494319564d932eaef9990f88efb2b16ab5a411adaea05002d122642b6749a9c461219d4</pre>
+  <p>
+    Using the derived key, TimeSeed decrypts the message, revealing:
+  </p>
+  <pre>Adam, it’s Brian. I’m in hiding. GaX is after me for the exposé. I need to send you documents securely. Let’s agree on a list of 10 pepper passwords for future messages. Use for example ‘w1’ to indicate the first pepper for the next message, derive key for send date. Stay safe.</pre>
+  <p>
+    Adam is relieved but remains cautious. TimeSeed’s offline, account-free design ensures no digital footprint is left for GaX to trace. The cipher is encrypted with Deterministic Key Derivation (AES, salting, time-salting, plus a pepper password). Even if they send the exact same text multiple times, the cipher would be different every time due to the initialization vector (IV).
+  </p>
+
+  <h2>Step 3: Establishing a Secure Password List</h2>
+  <p>
+    This is optional, but Adam and Brian feel that extra security through password rotations can’t hurt. Following Brian’s suggestion, they agree on a list of 10 pepper passwords to rotate for future communications, sent (securely if possible) via other channels (e.g., WhatsApp, nostr, paper letters, telephone, or even encrypted ciphers over SMS):
+  </p>
+  <pre>1. liberty
+2. shadow
+3. umbrella
+4. haven
+5. spark
+6. surfing
+7. dusk
+8. chocolate
+9. palmtrees
+10. rainbows</pre>
+  <p>
+    They reference peppers by list position (e.g., <code>w1</code> for <code>liberty</code>, <code>w1w5</code> for <code>libertyspark</code>) to obscure their communication further.
+  </p>
+
+  <h2>Step 4: Sending a Secure Response</h2>
+  <p>
+    Adam responds to confirm receipt and ensure Brian can read the message: <em>"Brian, message received. I hope you’re safe. I’ll collect your documents. Use ‘w1w5’ for the next message, derive key for send date. Stay safe. Use daily derived passwords moving forward."</em>
+  </p>
+  <p>
+    To ensure compatibility, Adam encrypts the response using the original TimeSeed, pepper <code>The Anaconda</code>, and March 15, 2025, generating:
+  </p>
+  <pre>e885d2bb463b5b75d7d6540ee3804a97b27eadba7b4fdf95ebe5a7a717162eba639056ad3ae673f8f25b1fe7ff34f10160b319e9e8cd9aaab2fd9a3c6026e19d85a17744c5260acbdb63cbcb72a4a67c0f69e0a5e2a2eee775026907d56000daf2d5da64f74ce0b4e7e5c479137a8f83071b0fa88197fb82e5f857197334c5a1371e7788e6a16e8637c665ddc62df6c816dea72c101b2c87db9606b57fe248870b0d40b4a490ed1549aa932946211ba2ffc0025b2960e1d75e9ad20b472f785abd002a27ef7f3001a16dc081958632fe5586dc39635cc98521bd8ad68b75e9a476ad7cc44fa6059c8312134f909fb1</pre>
+  <p>
+    The message is sent via an anonymous email service, with each message uniquely salted to prevent replay attacks.
+  </p>
+
+  <h2>Step 5: Ongoing Secure Communication</h2>
+  <p>
+    Adam and Brian continue communicating using the agreed pepper password list (e.g., <code>libertyspark</code> for <code>w1w5</code>) and the original TimeSeed. They derive daily encryption keys based on the send date. For example, on June 21, 2025, they use:
+  </p>
+  <pre>Derived Password: f1b96cdc5a1e31311061e7aa9212b85f479bc05a6d138931874fa1e58fd15db</pre>
+  <p>
+    For sensitive exchanges, like files and pictures, including Brian’s exposé documents, they also start using file transfers with these passwords (e.g., July 2, 2025) with other pepper word combinations they wish to use. On July 20, 2025, for example, Brian sends a .tsx file containing documents and photos, encrypted with:
+  </p>
+  <ul>
+    <li><strong>TimeSeed</strong>: <code>R8prjIjMdg7mr2lL5a3NtYS3Jh43WqCHfbNxDIOtFDguFMAis2</code></li>
+    <li><strong>Pepper</strong>: <code>libertyspark</code> (w1w5)</li>
+    <li><strong>Date</strong>: July 20, 2025 (6-month period)</li>
+  </ul>
+  <pre>Derived Password: 209e302668c99e90ff9a528b07bd5c7ac381e56b73502d3c5837c5422c8f9c40</pre>
+  <p>
+    Adam decrypts the file and stores it offline, ensuring GaX cannot trace their communication.
+  </p>
+
+  <h2>The Outcome</h2>
+  <p>
+    TimeSeed’s cryptography enables Adam to securely receive and publish Brian’s exposé while protecting his identity. Brian safely relocates, their communication untraceable by GaX. They rely on shared secrets and TimeSeed’s flexible design, which works without public/private key exchanges or centralized services. Messages can be sent via any medium—email, messaging apps, or even blockchain transactions—making it ideal for high-stakes scenarios.
+  </p>
+
+  <h2>Why TimeSeed?</h2>
+  <ul>
+    <li><strong>Privacy-First</strong>: No accounts or personal data, relying solely on shared secrets.</li>
+    <li><strong>Offline Capability</strong>: Works on air-gapped devices, leaving no digital footprint, and runs in all modern browsers.</li>
+    <li><strong>Flexible Keys</strong>: Daily or 6-month keys with rotating peppers ensure robust security.</li>
+    <li><strong>Open Source</strong>: Auditable HTML file with no hidden backdoors or tracking.</li>
+    <li><strong>Resilience</strong>: Messages are secure against replay or side-channel attacks, thanks to unique salting and pepper passwords.</li>
+  </ul>
+  <p>
+    TimeSeed empowers secure communication in high-stakes environments, proving that simple, privacy-first cryptography can protect those fighting for truth.
+  </p>
+
+  <hr>
+
+  <footer>
+    <small>
+      Learn more at <a href="https://timeseed.io">TimeSeed.io</a>
+    </small>
+  </footer>
+</body>
+</html>

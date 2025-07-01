@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeSeed: Secure Document Sharing Over WhatsApp</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; max-width: 800px; }
+    h1, h2, h3 { color: #333; }
+    pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    code { font-family: monospace; }
+    ul { margin: 10px 0; }
+    .highlight { font-weight: bold; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    hr { margin: 20px 0; }
+    footer { font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>TimeSeed: Secure Document Sharing Over WhatsApp</h1>
+
+  <h2>The Story</h2>
+  <p>
+    User A and User B are colleagues working on a sensitive project. They need to share confidential documents securely but want to use WhatsApp for its convenience. To protect their communication from prying eyes, they decide to use TimeSeed, a privacy-first encryption tool. A while ago, they shared a TimeSeed string in person, and during a recent phone call, they agreed to use the pepper password <code>Thunderstorm</code> for added security.
+  </p>
+
+  <h3>Key Characters</h3>
+  <ul>
+    <li><span class="highlight">User A</span>: A project manager who needs to send sensitive documents to User B.</li>
+    <li><span class="highlight">User B</span>: A team member who will receive and review the documents.</li>
+  </ul>
+
+  <h2>The Challenge: Securely Sharing Documents</h2>
+  <p>
+    User A wants to send a PDF document to User B over WhatsApp, but they’re concerned about interception or unauthorized access. Using TimeSeed, they can encrypt the document with a shared TimeSeed string and the pepper password <code>Thunderstorm</code>, ensuring only User B can decrypt it.
+  </p>
+
+  <h2>Step 1: Deriving the Encryption Key</h2>
+  <p>
+    User A downloads the open-source TimeSeed.io HTML file from <a href="https://timeseed.io">TimeSeed.io</a>, verifies its integrity, and opens it on an air-gapped laptop for maximum security. They input the pre-shared 50-character TimeSeed string:
+  </p>
+  <pre>TrZmGsRJevrfT4NRKeDQAdJEAxyarE8gleIEmQSqrBgnxsXv38</pre>
+  <p>
+    User A also enters the pepper password <code>Thunderstorm</code> and selects July 2nd, 2025, as the key derivation date (agreed upon with User B during their phone call). TimeSeed’s AES-GCM algorithm generates a 64-character encryption key for 6 months (longer term):
+  </p>
+  <pre>adc0b33ffb4c2d7e2aa84da9ff8a885a53ff952b3e2c2e1a1742ec090f32c02e</pre>
+  <p>
+    This longer term password key, unique to the TimeSeed, pepper, and date, ensures the document is secure, as the secrets were never shared online.
+  </p>
+
+  <h2>Step 2: Encrypting the Document</h2>
+  <p>
+    User A, still at the "timeseed" section, selects the longer term password as the one to use in "Lockit" by clicking the "use in lockit". User A uploads the .PDF document with the info into TimeSeed’s encryption field, this can be found under the 'Encode or Decode' section text, and user A clicks on "input as File" to switch to file mode, from text mode.
+    This user uses the derived key. 
+    TimeSeed encrypts the file, producing a .tsx file and a ciphertext string for sharing:
+  </p>
+  <p>
+    The File can be found <a href="https://lime-jami-53.tiiny.site" target="_blank" rel="noopener noreferrer">here</a> (it's a test .TSX (the encryped PDF) file for "Lorum Ipsum Network" for testing purposes). Click the "download" icon in the upper right of the interface to download the file. If you don't trust the file upload it first to virustotal.com to be sure there's no virus in it (it's just an encrypted .pdf)
+  </p>
+  <p>
+    The encryption uses Deterministic Key Derivation (AES, salting, time-salting, plus a pepper password), ensuring that even if the same document is encrypted multiple times, the ciphertext is unique due to the initialization vector (IV).
+  </p>
+
+  <h2>Step 3: Sending the Encrypted Document</h2>
+  <p>
+    User A sends the .tsx file to User B via WhatsApp, along with a note: <em>“Encrypted with TimeSeed, use our pepper password July 2, 2025.”</em> The message is sent securely, with WhatsApp’s end-to-end encryption providing an additional layer of protection for the transmission.
+  </p>
+
+  <h2>Step 4: Decrypting the Document</h2>
+  <p>
+    User B receives the message and downloads the TimeSeed.io HTML file, opening it on their own air-gapped device. They input the same TimeSeed string, the pepper password <code>Thunderstorm</code>, and the date July 1, 2025, to derive the same 64-character key:
+  </p>
+  <pre>adc0b33ffb4c2d7e2aa84da9ff8a885a53ff952b3e2c2e1a1742ec090f32c02e</pre>
+  <p>
+    User B uploads the .tsx file or pastes the ciphertext into TimeSeed’s decryption field. The tool decrypts the file, revealing the original PDF document. TimeSeed’s offline design ensures no digital footprint is left behind.
+  </p>
+
+  <h2>Step 5: Ongoing Secure Sharing</h2>
+  <p>
+    User A and User B continue sharing documents using the same TimeSeed and pepper password, deriving daily keys for each new exchange. For example, on July 2, 2025, they use a new key:
+  </p>
+  <pre>7b2e9d1f4a6c8h325608f7ade35g91e24h3i852cbf6d1247ge9f4cb2e1ah37c1</pre>
+  <p>
+    For highly sensitive documents, they agree to use a 6-month key (e.g., July 1–December 31, 2025) with the same pepper, ensuring long-term security.
+  </p>
+
+  <h2>The Outcome</h2>
+  <p>
+    TimeSeed enables User A and User B to share sensitive documents securely over WhatsApp, protecting their project from unauthorized access. The system’s reliance on shared secrets and offline operation ensures their communication remains private, even on a widely used platform. They can send encrypted files via any medium—WhatsApp, email, or others—making TimeSeed versatile for their needs.
+  </p>
+
+  <h2>Why TimeSeed?</h2>
+  <ul>
+    <li><strong>Privacy-First</strong>: No accounts or personal data, relying solely on shared secrets.</li>
+    <li><strong>Offline Capability</strong>: Works on air-gapped devices, leaving no digital footprint, and runs in all modern browsers.</li>
+    <li><strong>Flexible Keys</strong>: Daily or 6-month keys with a pepper password ensure robust security.</li>
+    <li><strong>Open Source</strong>: Auditable HTML file with no hidden backdoors or tracking.</li>
+    <li><strong>Resilience</strong>: Messages are secure against replay or side-channel attacks, thanks to unique salting and the pepper password.</li>
+  </ul>
+  <p>
+    TimeSeed empowers secure communication for everyday needs, proving that simple, privacy-first cryptography can protect sensitive information.
+  </p>
+
+  <hr>
+
+  <footer>
+    <small>
+      Learn more at <a href="https://timeseed.io">TimeSeed.io</a>
+    </small>
+  </footer>
+</body>
+</html>
