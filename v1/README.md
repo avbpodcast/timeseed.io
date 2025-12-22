@@ -97,14 +97,28 @@ Use this software at your own risk. The Authors disclaim all liability for any d
 v1.13
 June 21, 2025
 
+v1.14
+22 dec, 2025 (the file was moved to a dedicated folder, and the footer links were updated (no code changes) 
+this results in an update of the hash values.
+
 
 
 checksums:
 
 the root , main index.html file v1.13 (all code on one page) subsequential other version checksums will be mentioned in the new releases itself.
 
-The initial file has the following checksums:
+*obsolote sum, just FYI*
+v1.13 The initial file has the following checksums:
 
 MD5 sum: D9E119C191A41240D0EE1B4CB180A491 
 
 SHA256 : 234350F6B858BE906AB5BFF72037DF9FFC9ECB1991CF8FEC52FAAF74AF16BA3C
+
+--------
+Current live correct sum:
+
+v 1.14 (decmber 2025)
+
+MD5 sum: CED9AD8DE8B774924D7141AC36813580
+
+SHA256 sum: A502B0DA1CB4E65CD872E99C745F0960A3D8382C96E28D7D59B806973B0045CF
