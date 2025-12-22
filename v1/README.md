@@ -1,4 +1,4 @@
-# TimeSeed  - A Time Synchronize passowrd derivation system without middlemen 
+# TimeSeed  - A Time Synchronize password derivation system without middlemen 
 A seed string for generating secure AES-GCM encryption messages over any network.
 
 A web standalone web application for encryption on time-based key generation using LockIt and Time-Seed features.
