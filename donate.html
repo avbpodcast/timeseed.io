@@ -201,20 +201,15 @@
 
   <footer class="text-sm text-[#D1D5DB] mt-4 text-center">
     <a href="https://github.com/avbpodcast/timeseed.io" class="hover:text-[#14B8A6]">Source</a> | 
-    <a href="https://avbpodcast.github.io/timeseed.io/TSexplained.html" class="hover:text-[#14B8A6]">How does it work?</a> |
-    <a href="https://avbpodcast.github.io/timeseed.io/donate.html" class="hover:text-[#14B8A6]">Fund Development</a> | 
-    <a href="https://avbpodcast.github.io/timeseed.io" onclick="downloadPage()" class="hover:text-[#14B8A6]">Download</a> | 
-    <a href="https://avbpodcast.github.io/timeseed.io/contact.html" class="hover:text-[#14B8A6]">Contact</a> |  
-    version 1.13 beta
   </footer>
 
   <script>
     // Preload images
     const images = [
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/mr21.png',
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/bolt12.png',
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/onchain.png',
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/silent.png'
+      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/mr21.png',
+      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/bolt12.png',
+      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/onchain.png',
+      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/silent.png'
     ];
     images.forEach(src => {
       const img = new Image();
@@ -224,19 +219,19 @@
     const donationOptions = [
       {
         name: "Lightning Network",
-        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/mr21.png",
+        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/mr21.png",
         address: "mr21@walletofsatoshi.com",
         details: "<strong>Warning:</strong> Donate through Lightning Network to 'Mr21'."
       },
       {
         name: "Bitcoin On-Chain",
-        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/onchain2.png",
+        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/onchain2.png",
         address: "bc1qf06skqt2mxl25lcppn7n62cdw2zq50rt6evta8",
         details: "The best, preferred way to donate Bitcoin: on-chain, direct and without intermediaries."
       },
       {
         name: "Silent Payment",
-        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/silent2.png",
+        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/silent2.png",
         address: "sp1qqv5t58fjkc77l7repqgy7x5pudp4dh3vypddle7eyplassvgvfp85qu3lfu2dd87ws8ltetshtdqut3yg3r9qm4650u5fwruwe0ad4u38gkkq3hr",
         details: "Silent Payments are supported by Phoenix, Blue Wallet, DANA, Cake Wallet, and WabiSabi. More to come soon! <a href='https://github.com/bitcoin/bips/blob/master/bip-0353.mediawiki' target='_blank' rel='noopener noreferrer'>Learn more about BIP353</a>."
       }
@@ -327,5 +322,6 @@
 </body>
 
 </html>
+
 
 
