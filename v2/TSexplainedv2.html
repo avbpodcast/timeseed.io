@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeSeed Explained</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      background-color: #1F2937;
+      color: #E5E7EB;
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #2DD4BF;
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2DD4BF;
+      margin: 2rem 0 1rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #4ADE80;
+      margin: 2rem 0 1rem;
+      padding: 0.5rem;
+      background: rgba(45, 212, 191, 0.05);
+      border-radius: 4px;
+    }
+    p {
+      margin-bottom: 1.25rem;
+      color: #E5E7EB;
+    }
+    code {
+      background: #111827;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      color: #D1D5DB;
+      font-size: 0.9rem;
+    }
+    pre {
+      background: #111827;
+      padding: 1rem;
+      overflow-x: auto;
+      border-left: 3px solid #2DD4BF;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-family: 'Menlo', 'Consolas', monospace;
+      color: #D1D5DB;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .highlight {
+      background: rgba(45, 212, 191, 0.1);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      color: #E5E7EB;
+    }
+    .warning {
+      color: #F97316;
+      font-style: italic;
+      margin: 1rem 0;
+      padding: 0.5rem;
+      background: rgba(249, 115, 22, 0.1);
+      border-radius: 4px;
+    }
+    .call-to-action {
+      color: #2DD4BF;
+      font-style: italic;
+      font-weight: 500;
+    }
+    .example-image {
+      max-width: 150px;
+      height: auto;
+      display: block;
+      margin: 1rem auto;
+      border: none;
+    }
+    a {
+      color: #2DD4BF;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #5EEAD4;
+    }
+    ul, ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+      color: #E5E7EB;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #4B5563;
+      margin: 2rem 0;
+    }
+    small {
+      color: #9CA3AF;
+      font-size: 0.85rem;
+    }
+    strong {
+      font-weight: 600;
+      color: #E5E7EB;
+    }
+    em {
+      color: #D1D5DB;
+      font-style: italic;
+    }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #9CA3AF;
+    }
+    footer a {
+      color: #2DD4BF;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.2s;
+    }
+    footer a:hover {
+      color: #5EEAD4;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 1.5rem 1rem;
+        font-size: 15px;
+      }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.3rem; }
+      h3 { font-size: 1.15rem; padding: 0.4rem; }
+      .example-image { max-width: 120px; }
+    }
+	.notice.ios-limitation {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+.notice.ios-limitation h3 {
+  margin-top: 0;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Welcome to the TimeSeed System</h1>
+  <p>Since the late 1990s, we've had PGP to exchange keys and encrypt messages or files. Now there’s <strong>TimeSeed</strong>—a simple, privacy-focused alternative that doesn’t rely on centralized servers or key pairs.</p>
+  <p>With TimeSeed, you only use pre-shared secrets. As long as you and your correspondent(s) know a shared TimeSeed (can even be public if needed), you’ll be able to start secure communication. Use differentiators like a “pepper” password that you both know for added security.</p>
+  <p>In TimeSeed, there’s no personal information involved—no email, fingerprint, ID, phone number, or hardware wallet. No central server or authority is required. It’s just pure cryptography, built for privacy. It’s also built for flexibility, using a two-layer setup:</p>
+  <p><span class="highlight">TimeSeed + Pepper password → Derived (time-based) encryption password</span></p>
+
+  <h2>How TimeSeed Works</h2>
+  <p>TimeSeed is a deterministic password generator with built-in re-keying using pre-shared secrets.</p>
+  <p>From a single secret (the TimeSeed) and an optional pepper password, you can derive strong encryption keys on any device, online or offline.</p>
+  <p>It uses <strong>AES-GCM encryption with salting</strong>—verifiable, standard cryptography. All logic is contained in one single HTML file. No hidden components, no black boxes.</p>
+  <p>Key elements:</p>
+  <ul>
+    <li><strong>TimeSeed</strong>: A 50-character anchor point, generated in the tool or user-made.</li>
+    <li><strong>Pepper password</strong>: Optional extra “salt” for security and entropy.</li>
+    <li><strong>Time</strong>: Re-keys daily at 00:00 UTC; long-term keys anchor on Jan 1 or Jul 1.</li>
+    <li><strong>Salt & IV</strong>: Automatically added randomness to deter attacks and ensure unique ciphertexts.</li>
+    <li><strong>Daily/Long-term key</strong>: The final password for LockIt encryption/decryption.</li>
+  </ul>
+  <p>You can pick custom dates for more control. LockIt is also available standalone for quick use, but avoid reusing keys there.</p>
+  <p>The goal: Encrypt data before it hits any network or server, outside the “internet surveillance” bubble. Quantum-resistant methods protect against brute-force and side-channel attacks.</p>
+  <p>Ciphertexts start with a version header like “54533” (TS4 for v2) for compatibility.</p>
+
+  <h2>The Workflow</h2>
+  <h3>Public TimeSeed Method</h3>
+  <p>Ideal for journalists, NGOs, or whistleblower platforms. Lets anyone encrypt to you without prior contact—safe even if transmitted openly.</p>
+  <p>In rare cases like emergencies, make the TimeSeed public; the pepper remains your secret anchor.</p>
+
+  <h3>Private TimeSeed Method</h3>
+  <p>More secure: Keep ALL info private among individuals. Share TimeSeeds securely, not online. Pepper is less critical but still boosts security. Intercepted ciphertexts remain uncrackable without impossible brute-force costs.</p>
+
+  <h3>Step-by-Step Setup (Takes 2 Minutes)</h3>
+  <ol>
+    <li><strong>Generate a strong 50-character TimeSeed</strong><br>Open the TimeSeed tool → click “Generate random seed” → copy the string.<br>Example: <code>K7pL9mX2vB8nQ4wE6rT1yU3iO5pA7sD9fG0hJ2kL4zX6cV8bN1mQ3wE5rT</code></li>
+    <li><strong>Publish the TimeSeed openly (for public method only)</strong><br>Put it on your SecureDrop page, Twitter/X bio, Mastodon profile, or “How to contact securely” section.</li>
+    <li><strong>Create a strong secret pepper—and keep it 100% private</strong><br>Your real master secret. Examples (memorize or use password manager):<br>- Five+ Diceware words: <code>correct horse battery staple violin nebula</code><br>- Unique sentence: <code>My cat Luna stole my red USB stick and hid it under the radiator</code><br>Never publish or reuse.</li>
+    <li><strong>Tell people what date to use</strong><br>Add: <code>“Encrypt with today’s UTC date (or the current 6-month semester). We check both automatically.”</code></li>
+  </ol>
+
+  <h3>When Someone Sends You Something</h3>
+  <p>They paste your TimeSeed, choose “Today” or “This semester,” encrypt their message/file, and send the result. They don’t need your pepper!</p>
+
+  <h3>When You Receive a Message (best practice is to agree in advance to use long-term passes for example)</h3>
+  <p>Try 2–4 combinations (takes seconds if they couldn't stipulate that and you have to guess—which can happen in an emergency for example):</p>
+  <ul>
+    <li>Current day + your secret pepper</li>
+    <li>Current semester + your secret pepper</li>
+    <li>(Optional) Yesterday or the day before (for timezone issues)</li>
+  </ul>
+  <p>The tool chooses and fills in that decrypt password instantly with the one you selected with the "use in LockIt" button.</p>
+
+  <h3>Why This Is Safe Even If the TimeSeed Is Public</h3>
+  <p>Real protection: Secret pepper + strong Argon2id (128 MiB memory-hard hashing). Even top agencies can’t brute-force a good pepper—millions to billions of years needed.</p>
+
+  <h2>Summary – The Golden Rules</h2>
+  <ul>
+    <li>Public TimeSeed = totally fine (that’s your choice!)</li>
+    <li>Secret strong pepper = your real key—guard it like nuclear codes</li>
+    <li>Never reuse the same pepper for different projects</li>
+    <li>You only need to test 2 to 4 date windows when opening submissions where people didn't specify them (usually it's the long-term key in the current semester, but you can specify that yourself or agree on dates)</li>
+  </ul>
+  <p>This sort of system can be used with a proven track record: zero known breaks when the pepper stayed secret.</p>
+  <p>Stay safe and keep giving sources a secure way to reach you!</p>
+
+  <h2>Example :</h2>
+  <h3>Message Encryption Example</h3>
+  <p><strong>TimeSeed:</strong><br>
+  <code>R8prjIjMdg7mr2lL5a3NtYS3Jh43WqCHfbNxDIOtFDguFMAis2</code></p>
+  <p class="warning"><i>Don't paste this in the "Lockit" section (that's for passwords). Place the TimeSeed above, in the TimeSeed section!!!</i></p>
+
+  <p><strong>Pepper:</strong><br>
+  <code>encrypt-everything</code></p>
+
+  <p><strong>Date:</strong><br>
+  03 01 2026 (3rd of January 2026)</p>
+
+  <p><strong>Long-term key:</strong></p>
+  <pre>B2bb83c9f5000e01c0d85616676cb323a7eb06745f48dae954dd7a776768e7b7</pre>
+
+  <p><strong>Encrypted message:</strong></p>
+  <pre>545334040178820bf1491d69fc2f1e549ac5919d8a9a1f02d5a929b35c9ede503c72e869b989d74edb07a44f3b8f16d3cd2ab4d3a333c7aa79ec939cbee1b7814d71f09ea43590fd5c3926b2ae34b9a2b8abe8fb2a379e030b5927c7c417baabd2f9ef0b916871ec534bb3cce06a9091c38965396aa56f</pre>
+
+  <p><strong>Decrypted output:</strong><br>
+  <em>“Test message created for date Jan. 3, 2026 with ….”</em></p>
+
+  <h3>File Encryption Example</h3>
+  <p>I’ve also encrypted a .png file (an image of a tower).</p>
+  <p>The SHA-256 hash of this image is: <code>645C0801FD42AF82C0E91160FF5886238E15063C6AA93085BAA6D51C29DEE473</code></p>
+  <p>The MD5 is: <code>AF200B6269E2783CBE2C6D027F3F2E47</code></p>
+  <p>You can test this with the same information as the earlier text example (long-term key: <code>B2bb8…</code>).</p>
+  <p>The image in .locked (encrypted) form can be downloaded from this link, then decrypted.</p>
+  <p><a href="https://example.org/tower_small.locked">Download tower_small.locked</a></p>
+  <p>Use a hashing tool (like <a href="http://www.quickhash-gui.org" target="_blank" rel="noopener noreferrer">QuickHash</a> or <a href="https://freefileviewers.com/hash/" target="_blank" rel="noopener noreferrer">free online hash checker</a>) to compare before and after hashes to verify no changes during encryption/decryption.</p>
+  <p class="call-to-action">See if you can decrypt the .locked file to match the original image!</p>
+  <p><a href="https://github.com/avbpodcast/timeseed.io/blob/main/tower_small.png.locked"><img src="https://github.com/avbpodcast/timeseed.io/blob/main/tower_small.png.locked" alt="Tower small image" class="example-image"></a></p>
+<hr>
+<section class="notice ios-limitation">
+  <p>
+    <strong>TimeSeed / LockIt</strong> performs
+    <strong>memory-hard client-side cryptography</strong>
+    (Argon2 + AES-GCM) directly in your browser. While this works reliably on
+    Android, Windows, macOS, and Linux browsers, Apple’s iOS platform imposes
+    strict execution and memory limitations on browser-based cryptographic
+    workloads, which prevents the use of strong cryptography.
+  </p>
+
+  <p>
+    On iPhone and iPad, Apple requires all browsers to use its
+    <strong>WebKit</strong> engine, which aggressively limits long-running
+    JavaScript, WebAssembly, and cryptographic operations. As a result,
+    encryption buttons may appear inactive or unresponsive. This is
+    <strong>not a bug</strong>, but a deliberate platform restriction imposed
+    by Apple.
+  </p>
+
+  <p>
+    The author of timeseed.io refuses to downgrade the security of this tool
+    or weaken key generation merely to make it appear functional on iOS.
+    So security is not compromised for platform compatibility.
+  </p>
+
+  <p>
+    For secure operation of TimeSeed and LockIt, we recommend using a desktop
+    browser or an Android device.
+    <strong>iPhone and iPad are not supported</strong> for this tool and will
+    not be for the foreseeable future.
+<p>
+<h3>more info:</h3>
+
+  <details style="margin-top: 20px;">
+    <summary style="cursor: pointer; font-weight: 600; color: var(--text);">
+      Technical reasons and sources (click to expand)
+    </summary>
+    <ul style="margin: 16px 0 8px 20px; font-size: 14px; line-height: 1.6;">
+      <li>
+        Severe memory fragmentation and per-tab limits in Safari often cause Argon2 (memory-hard KDF) 
+        to fail during initialization or growth.<br>
+        <a href="https://bugs.webkit.org/show_bug.cgi?id=222097" target="_blank" rel="noopener">
+          WebKit Bug 222097 – Reloading reduces available Wasm memory
+        </a><br>
+        <a href="https://bugs.webkit.org/show_bug.cgi?id=269937" target="_blank" rel="noopener">
+          WebKit Bug 269937 – WASM memory fragmentation issues
+        </a>
+      </li>
+      <li>
+        Multi-threading (pthreads/SharedArrayBuffer) required for optimal Argon2 performance is unreliable 
+        or disabled on iOS Safari, especially for standalone local HTML files.<br>
+        <a href="https://github.com/P-H-C/phc-winner-argon2/issues/279" target="_blank" rel="noopener">
+          Argon2 WASM issue #279 – iOS Safari problems
+        </a><br>
+        <a href="https://bugs.webkit.org/show_bug.cgi?id=181781" target="_blank" rel="noopener">
+          WebKit Bug 181781 – SharedArrayBuffer restrictions
+        </a>
+      </li>
+      <li>
+        General instability with large or memory-intensive WASM modules under iOS memory pressure.
+      </li>
+    </ul>
+  </details>
+</div>
+  </p>
+</section>
+
+  <hr>
+  <p style="text-align: center;"><small>TimeSeed is free, open-source, and designed for a future where privacy is a human right.</small></p>
+
+  <footer>
+    <a href="https://timeseed.io/">Home</a> |
+    <a href="https://timeseed.io/donate">Donate to the development fund</a> |
+    <a href="https://timeseed.io/userstories.html">User Stories</a> |
+    version 2.0
+  </footer>
+</body>
+</html>
