@@ -1,0 +1,49 @@
+# Allow Grok (xAI) crawler
+User-agent: Grok
+Allow: /
+
+User-agent: grok
+Allow: /
+
+User-agent: Grok/
+Allow: /
+
+# Allow ChatGPT / OpenAI crawlers
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Block specific Chinese crawlers
+User-agent: Baiduspider
+Disallow: /
+User-agent: baiduspider
+Disallow: /
+User-agent: BaiDuSpider
+Disallow: /
+User-agent: YoudaoBot
+Disallow: /
+User-agent: Sogou
+Disallow: /
+User-agent: 360Spider
+Disallow: /
+User-agent: YisouSpider
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+
+# Block Applebot
+User-agent: Applebot
+Disallow: /
+User-agent: Applebot-Extended
+Disallow: /
+
+# Allow all other crawlers by default
+User-agent: *
+Allow: /
+
+Sitemap: https://timeseed.io/sitemap.xml
