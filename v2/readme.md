@@ -90,4 +90,10 @@ The source code is intended to be auditable and verifiable by independent third 
 
 **Use at your own risk.** Always verify downloaded files and practice good key hygiene.
 
+https://timeseed.io/v2/ 
+
+Verify hashes for the main html page for timeseed v2 :
+MD5 sum= 26c4c8d9eec9ea8657ed4b89aa280149
+SHA256  = faed437119cb265cb20defcf106d625f5cfc7b1af80fdd45fbea17d166e2e7d2
+
 **v2.0 – December 2025**
