@@ -1,5 +1,13 @@
 # LockIt v2
 
+
+##  What LockIt is (and is not)
+LockIt is designed for client-side text encryption using strong passwords or passkeys alongside the main Timeseed v2 system (timeseed.io). It uses the passkeys for long term or daily keys, derived from the timeseed in order to encrypt/decrypt info.
+
+Lockit is NOT a messaging app, messaging network, a key escrow system, password manager or anonymity network.
+Timeseed itself is NOT a messaging app, messaging network, a key escrow system, password manager or anonymity network.
+
+
 **LockIt v2** is a lightweight, client-side encryption companion tool for **Timeseed v2**.  
 It is designed primarily for **Android browsers**, but also works on desktop platforms.
 
@@ -7,11 +15,11 @@ LockIt allows you to securely **encrypt and decrypt text** using a strong passwo
 All cryptographic operations happen **entirely inside your browser** — no data is ever sent to any server.
 
 ---
-## Checksum for the Lockit v2 page 
+## Checksum for the Lockit v2 page (december 2025)
 
-MD5 : 57a60a63fc78724d95286992fc7de84b
+MD5 : cf0d76322f74b4886ef735e065123dc3
 
-SHA256 : 660f1a86035cc61cb754bef8f9df8706ad7c5aed8ac47aa3984da7c81582b797
+SHA256 : 6452394b0f3ada0ce8840f45796fd6250accceeb89e9a3d51c8fa8b77a3781f2
 
 ## Overview
 
