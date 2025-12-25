@@ -48,6 +48,11 @@ The tool is a single self-contained HTML file. For development or modifications:
 - Extract/unbundle if needed (CSS and JS are inline)
 - Argon2 WASM is bundled; Web Crypto API handles AES-GCM
 
+## Known issues 
+On the localized version of lockit and timseed, when running purely the html offline on a iOS device (Iphone / Ipad) there is a known limitation (see the how-to for further explanation). 
+The lockit tool can be used on iphone online, not offline. This is not a bug, but a choice by Apple. 
+Suggest to either use a desktop (Mac OS, Windows, Linux... ) for offline use, or an Android phone in such cases.
+
 ## Links
 
 - Website: [https://timeseed.io](https://timeseed.io)
@@ -92,8 +97,9 @@ The source code is intended to be auditable and verifiable by independent third 
 
 https://timeseed.io/v2/ 
 
-Verify hashes for the main html page for timeseed v2 :
-MD5 sum= 26c4c8d9eec9ea8657ed4b89aa280149
-SHA256  = faed437119cb265cb20defcf106d625f5cfc7b1af80fdd45fbea17d166e2e7d2
+Verify hashes for the main html page for timeseed v2 : <br />
+MD5 sum= 26c4c8d9eec9ea8657ed4b89aa280149<br />
+SHA256  = faed437119cb265cb20defcf106d625f5cfc7b1af80fdd45fbea17d166e2e7d2<br />
 
 **v2.0 – December 2025**
+
