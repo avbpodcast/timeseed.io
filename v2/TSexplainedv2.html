@@ -254,37 +254,35 @@
   <p><a href="https://github.com/avbpodcast/timeseed.io/blob/main/tower_small.png.locked"><img src="https://github.com/avbpodcast/timeseed.io/blob/main/tower_small.png.locked" alt="Tower small image" class="example-image"></a></p>
 <hr>
 <section class="notice ios-limitation">
-  <p>
+<p>
     <strong>TimeSeed / LockIt</strong> performs
     <strong>memory-hard client-side cryptography</strong>
     (Argon2 + AES-GCM) directly in your browser. While this works reliably on
     Android, Windows, macOS, and Linux browsers, Apple’s iOS platform imposes
     strict execution and memory limitations on browser-based cryptographic
-    workloads, which prevents the use of strong cryptography.
+    workloads <strong> when used offline</strong>, which prevents the use of strong cryptography. 
   </p>
 
   <p>
     On iPhone and iPad, Apple requires all browsers to use its
     <strong>WebKit</strong> engine, which aggressively limits long-running
     JavaScript, WebAssembly, and cryptographic operations. As a result,
-    encryption buttons may appear inactive or unresponsive. This is
-    <strong>not a bug</strong>, but a deliberate platform restriction imposed
-    by Apple.
+    encryption buttons may appear inactive or unresponsive when used offline/locally. 
+	This is  <strong>not a bug</strong>, but a platform limitation where technical choices by Apple are the direct cause.
   </p>
 
   <p>
     The author of timeseed.io refuses to downgrade the security of this tool
-    or weaken key generation merely to make it appear functional on iOS.
+    or weaken key generation merely to make it appear functional on all iOS devices.
     So security is not compromised for platform compatibility.
   </p>
 
   <p>
     For secure operation of TimeSeed and LockIt, we recommend using a desktop
-    browser or an Android device.
-    <strong>iPhone and iPad are not supported</strong> for this tool and will
-    not be for the foreseeable future.
+    browser or an Android device (offline or online doesn't matter in these cases).
+    <strong>iPhone and iPad are not supported</strong> for offline use of this tool and will not be for the foreseeable future. 
 <p>
-<h3>more info:</h3>
+<h3>more info on this :</h3>
 
   <details style="margin-top: 20px;">
     <summary style="cursor: pointer; font-weight: 600; color: var(--text);">
