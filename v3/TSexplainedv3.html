@@ -87,6 +87,15 @@
       margin: 1rem auto;
       border: none;
     }
+    .infographic {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 2.5rem auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      border: 1px solid rgba(45,212,191,0.15);
+    }
     a {
       color: #2DD4BF;
       text-decoration: none;
@@ -153,6 +162,7 @@
       h2 { font-size: 1.3rem; }
       h3 { font-size: 1.15rem; padding: 0.4rem; }
       .example-image { max-width: 120px; }
+      .infographic { margin: 2rem auto; }
     }
   </style>
 </head>
@@ -172,6 +182,10 @@
     <li>The final symmetric key is a secure combination of both (classical + PQ), fed into AES-256-GCM for encryption.</li>
   </ul>
   <p>This hybrid approach protects against both current attacks and future quantum computers, while staying fast and compatible with browsers.</p>
+
+  <!-- Infographic placed here as a clear visual summary of the hybrid flow -->
+  <img src="infographic.png" alt="TimeSeed v3 Hybrid Post-Quantum Key Derivation Flow" class="infographic">
+
   <p>Key elements (unchanged from v2):</p>
   <ul>
     <li><strong>TimeSeed</strong>: 50-character anchor (generated or custom).</li>
@@ -217,7 +231,7 @@
   <p>Paste into TimeSeed v3 to decrypt — it will succeed with the correct pepper and date.</p>
 
   <hr>
-  <section class="notice ios-limitation">
+  <section class="notice.ios-limitation">
     <p><strong>TimeSeed v3 / LockIt</strong> still uses heavy client-side cryptography (Argon2 + ML-KEM + AES-GCM). The same iOS Safari limitations apply: strong parameters work reliably on desktop and Android, but iOS offline/local use is restricted by Apple’s WebKit engine.</p>
     <p>For full security, use a desktop browser or Android device.</p>
     <details style="margin-top: 20px;">
