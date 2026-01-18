@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeSeed v3 Explained</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      background-color: #1F2937;
+      color: #E5E7EB;
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #2DD4BF;
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2DD4BF;
+      margin: 2rem 0 1rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #4ADE80;
+      margin: 2rem 0 1rem;
+      padding: 0.5rem;
+      background: rgba(45, 212, 191, 0.05);
+      border-radius: 4px;
+    }
+    p {
+      margin-bottom: 1.25rem;
+      color: #E5E7EB;
+    }
+    code {
+      background: #111827;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      color: #D1D5DB;
+      font-size: 0.9rem;
+    }
+    pre {
+      background: #111827;
+      padding: 1rem;
+      overflow-x: auto;
+      border-left: 3px solid #2DD4BF;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-family: 'Menlo', 'Consolas', monospace;
+      color: #D1D5DB;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .highlight {
+      background: rgba(45, 212, 191, 0.1);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      color: #E5E7EB;
+    }
+    .warning {
+      color: #F97316;
+      font-style: italic;
+      margin: 1rem 0;
+      padding: 0.5rem;
+      background: rgba(249, 115, 22, 0.1);
+      border-radius: 4px;
+    }
+    .call-to-action {
+      color: #2DD4BF;
+      font-style: italic;
+      font-weight: 500;
+    }
+    .example-image {
+      max-width: 150px;
+      height: auto;
+      display: block;
+      margin: 1rem auto;
+      border: none;
+    }
+    a {
+      color: #2DD4BF;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #5EEAD4;
+    }
+    ul, ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+      color: #E5E7EB;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #4B5563;
+      margin: 2rem 0;
+    }
+    small {
+      color: #9CA3AF;
+      font-size: 0.85rem;
+    }
+    strong {
+      font-weight: 600;
+      color: #E5E7EB;
+    }
+    em {
+      color: #D1D5DB;
+      font-style: italic;
+    }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #9CA3AF;
+    }
+    footer a {
+      color: #2DD4BF;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.2s;
+    }
+    footer a:hover {
+      color: #5EEAD4;
+    }
+    .notice.ios-limitation {
+      margin: 2rem 0;
+      padding: 1.25rem 1.5rem;
+      border-left: 4px solid #f59e0b;
+      background: rgba(245, 158, 11, 0.08);
+    }
+    .notice.ios-limitation h3 {
+      margin-top: 0;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 1.5rem 1rem;
+        font-size: 15px;
+      }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.3rem; }
+      h3 { font-size: 1.15rem; padding: 0.4rem; }
+      .example-image { max-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to TimeSeed v3</h1>
+  <p>TimeSeed is a simple, privacy-first encryption system that needs no servers, no key pairs, and no accounts. You and your correspondent only share a pre-agreed secret (the TimeSeed and optional pepper password) to derive strong encryption keys on any device.</p>
+  <p>Version 3 adds full post-quantum protection while keeping the same easy workflow. It builds on the proven Argon2id key derivation from v2 and layers the official NIST post-quantum standard <strong>ML-KEM</strong> (formerly Kyber) on top for future-proof security.</p>
+  <p>All processing happens in your browser — online or offline, nothing leaves your device.</p>
+
+  <h2>How TimeSeed v3 Works</h2>
+  <p>The core idea remains deterministic key derivation from shared secrets:</p>
+  <p><span class="highlight">TimeSeed (50-char) + optional Pepper password + Date → Strong encryption key</span></p>
+  <p>In v3, the key derivation is now <strong>hybrid post-quantum</strong>:</p>
+  <ul>
+    <li>First, Argon2id (memory-hard, 128 MiB) creates a strong classical key — exactly as in v2.</li>
+    <li>Then, ML-KEM is used to encapsulate/derive an additional post-quantum key component.</li>
+    <li>The final symmetric key is a secure combination of both (classical + PQ), fed into AES-256-GCM for encryption.</li>
+  </ul>
+  <p>This hybrid approach protects against both current attacks and future quantum computers, while staying fast and compatible with browsers.</p>
+  <p>Key elements (unchanged from v2):</p>
+  <ul>
+    <li><strong>TimeSeed</strong>: 50-character anchor (generated or custom).</li>
+    <li><strong>Pepper password</strong>: Your secret extra entropy (highly recommended).</li>
+    <li><strong>Date</strong>: Daily re-keying at 00:00 UTC or long-term (Jan 1 / Jul 1 semesters).</li>
+    <li><strong>Salt & IV</strong>: Automatic randomness for unique ciphertexts.</li>
+  </ul>
+
+  <h2>Compatibility & Silent Fallback</h2>
+  <p>Ciphertexts include a short version header (e.g., “545334...” for v2, new header for v3).</p>
+  <p><strong>TimeSeed v3 is backward-compatible with v2:</strong></p>
+  <ul>
+    <li>When you paste a v2 ciphertext, the tool automatically detects the old header and <strong>silently falls back</strong> to pure Argon2id derivation (no ML-KEM step).</li>
+    <li>Decryption works exactly as before — no extra steps needed.</li>
+    <li>New encryptions in v3 use the full hybrid PQ mode and the new header.</li>
+  </ul>
+  <p><strong>Note:</strong> v2 and older tools cannot decrypt v3 ciphertexts (they will show an error). Always use the latest version for new messages.</p>
+
+  <h2>The Workflow (Same as v2)</h2>
+  <h3>Public TimeSeed Method</h3>
+  <p>Safe for journalists, NGOs, or public drop pages — anyone can encrypt to you without prior contact.</p>
+  <h3>Private TimeSeed Method</h3>
+  <p>Maximum security: keep everything secret between trusted parties.</p>
+  <h3>Step-by-Step Setup</h3>
+  <ol>
+    <li><strong>Generate a strong 50-character TimeSeed</strong><br>Open TimeSeed v3 → “Generate random seed” → copy.</li>
+    <li><strong>(Optional) Publish the TimeSeed</strong> for the public method.</li>
+    <li><strong>Create a strong secret pepper</strong> — your real master secret (Diceware, unique sentence). Never share or reuse.</li>
+    <li><strong>Agree on date usage</strong> (today’s date or current semester recommended).</li>
+  </ol>
+  <h3>Receiving Messages</h3>
+  <p>Paste the ciphertext — v3 automatically tries the right derivation (PQ hybrid for new, fallback to Argon2id for v2). Test 2–4 date/pepper combinations if needed (usually just current day/semester).</p>
+
+  <h2>Why It’s Safe</h2>
+  <p>Even with a public TimeSeed, security rests on your secret pepper + Argon2id’s extreme brute-force resistance, now reinforced by ML-KEM against quantum threats.</p>
+
+  <h2>Example (v3 ciphertext)</h2>
+  <p><strong>TimeSeed:</strong><br><code>R8prjIjMdg7mr2lL5a3NtYS3Jh43WqCHfbNxDIOtFDguFMAis2</code></p>
+  <p><strong>Pepper:</strong><br><code>encrypt-everything</code></p>
+  <p><strong>Date:</strong><br>18 01 2026 (use the Daily key of that date)</p>
+  <p><strong>Encrypted message (v3 format):</strong></p>
+  <pre>54533405025ff641deedb4c56df0647a4ea195e016f419fd94193dcd395d17028e0440da769e833b8f305303308f32f148a7ea0a1d7e68201fe445ca558ed7489a9f2de9dea7abe728bca878dda38d461bc0fe76e71419b8f33ce018617193fc6eb466fa65eb46baddbd422e8fbe132f976ccee2b3a05b27cd29616d7d26fdde59a1939e02c784acb42b478778758597944791e937f60fe779268117eada0d32074b409b76144a78549e4f1a61ff60bd217b91fa76117ce23f1fe78e6e740c6765772fdb65be2eea66a82e7bf5714413d7279e114f9c18e0efed3d47c341c8fc4e65ac3ede80fe0bc19e0c4a1a9dab7b4b5741bbe713b675d81385e2029d393a68dc12f69d27d06cb4406fdf1b06e4bdbd1207c73124eced2c9fef93b200b62eeb1f167fd0411f15df603af9fea1203d1ea17cdcd6bf6fe223f0659cd0b1a9739222b730696449f1ccb3c7bed1bfdd44feabb846335c7bfea6cc950920b5dba62f5b94b5b9407af9d1ffb905702d15a5ce4ade10a5ffa7dc95c1dd3e3072cdd13f1ab171f725eab80f39aac9ae096d4b55909691a023abd2ba5fc5575766e91614924665421dcb8f87ba2a9dbd1f3081adedafd37370d42752f81253c589c1ec606bddb8fa2f8061fe24b3568b18558cc3a7b3edea15522ee97a498cc3ecbb97e452e1870c28c5e7314cd91d1507afa2978561625ba191a44f767318f16fa75800c152785a7fec7433932fa90911c6e5d2bfcec239453619fdbb4c6a8da9bc1ed03df4047aeacf63097fac3f85f195b7fcae4b4aff4db76a6f59c3b4d6d86a66c82039781c12879c1761a79d19785d13781e478c39c98be0929f9e4a4a8b3bcd3945c950d8b4b9bc40417194e162b7898e61209fda2b1ee379284ed5b80903e6a07796dbc182ecf62fa85fe4e508c9dd64a2b57a8aaa6e543da79b4673f32e98467e59cddbb4cd11fcee28e00f620a188532f9ad010f54ab6bb92771b26810c0457067dd531712df29d20dea1bbd77d6aad1e0e63ea3f022b32230089afcbb245e036ea78356f1bedb4e3d6c21447e7266766132f76c64b809c6285b15e4582bf9c739959f494a51e1340c338fd108581a401a4a0644c73e8c82899ba29839c917c7d87a303b9bc8dd1d4bba916bd5377743193de19ced33bf079b2dceb1994052f8f6cbef11bf7b34125f7dceb35940695496f8b2392d2ce4707dec6557e2a8ceed1acd25ee5b0c8b7abe1ad38cb7cd754d0d64a56a545c21ebde8402fc4aaa1301e097875906ffcc1ce1138ddf91e1751ee38f6976fb1efe4a4e27344f14faf4605ad7e30f36c53c77936a58f6545239299ca3b660766a861b2cf28fbb8f889f03ca9c8d317c0c9b1238f4871819604034af8701bbf437604da821e507a687cbc8bb9d19aea6ec293098c4cb053246d5d71b1791388c77728a35d722ca997a64f8db2313a876dcbfc150bd2912d0c8146452eb59722c81ad7c4ea98ee72907f85619d57a296ceef5912b09f1be5db53cf26f44415ed21a92297d38215a60a69d12682d5f864df49927e19f5432919291fe805796a9e2c1ec0887527ebe49c787f62eca273f902d7bcc31b3bd2a41668412e3b08c5ee344d172ccbc2127c86ab1a3f0b9ff7b0fd967c481c2853e05cefd922b5b7c7a97f0432dbc6fefe4b811de853a705711e5d88e4e5fd6cb68fd0e93121bb414534efae0c31ef46c3edd49097c9c34e30e1e41456a03976dfef22e4ee352962763237663602db762c1222d023f86ecf255e14eb60a7c35eb076d53f23769c1a31d1ed307d2</pre>
+  <p>Paste into TimeSeed v3 to decrypt — it will succeed with the correct pepper and date.</p>
+
+  <hr>
+  <section class="notice ios-limitation">
+    <p><strong>TimeSeed v3 / LockIt</strong> still uses heavy client-side cryptography (Argon2 + ML-KEM + AES-GCM). The same iOS Safari limitations apply: strong parameters work reliably on desktop and Android, but iOS offline/local use is restricted by Apple’s WebKit engine.</p>
+    <p>For full security, use a desktop browser or Android device.</p>
+    <details style="margin-top: 20px;">
+      <summary style="cursor: pointer; font-weight: 600;">Technical details (click to expand)</summary>
+      <ul style="margin: 16px 0 8px 20px; font-size: 14px;">
+        <li>Argon2 and ML-KEM WASM modules hit iOS memory/threading limits offline.</li>
+        <li>See WebKit bugs and Argon2 issues listed in previous versions.</li>
+      </ul>
+    </details>
+  </section>
+  <hr>
+  <p style="text-align: center;"><small>TimeSeed is free, open-source, and built for lasting privacy.</small></p>
+  <footer>
+    <a href="https://timeseed.io/">Home</a> |
+    <a href="https://timeseed.io/donate">Donate</a> |
+    <a href="https://timeseed.io/userstories.html">User Stories</a> |
+    version 3.0
+  </footer>
+</body>
+</html>
