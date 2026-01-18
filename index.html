@@ -15,8 +15,8 @@
             --accent-light: #ccbdb9;
             --border-accent: #0d9488;
             --badge-bg: #0d9488;
-            --title-color: #ffffff; /* Pure white for the main title – stands out */
-            --slogan-color: #a0e0d8; /* Soft light teal – calmer, complementary */
+            --title-color: #ffffff;
+            --slogan-color: #a0e0d8;
         }
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
@@ -28,7 +28,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            line-height: 1.5;
+            line-height: 1.6;
             text-align: center;
         }
         h1, h2, h3 {
@@ -41,20 +41,19 @@
             font-size: 3.2rem;
             font-weight: 700;
         }
-        /* Slogan + tagline group – tighter spacing */
         .header-group {
             margin: 0 auto 48px;
             max-width: 800px;
         }
         .slogan {
-            margin: 0 0 8px 0; /* Very tight gap to the tagline below */
+            margin: 0 0 16px 0;
             font-size: 1.8rem;
             font-weight: 600;
             color: var(--slogan-color);
-            line-height: 1.3;
+            line-height: 1.4;
         }
         .tagline {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #b0b0b0;
             margin: 0;
             font-weight: 400;
@@ -81,7 +80,7 @@
         }
         .card h2 {
             color: var(--accent);
-            margin: 20px 0 16px;
+            margin: 20px 0 20px;
             font-size: 1.8rem;
             font-weight: 600;
             display: flex;
@@ -91,8 +90,10 @@
         }
         .card p {
             color: #cccccc;
-            margin-bottom: 28px;
-            font-size: 1rem;
+            margin-bottom: 32px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            text-align: left;
         }
         .card a {
             display: inline-block;
@@ -120,10 +121,10 @@
             font-size: 0.9rem;
             font-weight: 600;
             display: inline-block;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         .card-v2 {
-            width: 440px;
+            width: 460px;
             display: flex;
             flex-direction: column;
             gap: 32px;
@@ -133,32 +134,34 @@
             background: #101a33;
             border: 1px solid #2a3a6a;
             border-radius: 14px;
-            padding: 24px;
+            padding: 28px;
             box-shadow: inset 0 0 0 1px rgba(13,148,136,0.15);
         }
         .companion h3 {
             color: var(--accent-light);
-            font-size: 1.2rem;
-            margin: 0 0 12px;
+            font-size: 1.3rem;
+            margin: 0 0 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
         .companion p {
-            font-size: 0.95rem;
+            font-size: 1.02rem;
             color: #d0d0d0;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+            line-height: 1.6;
         }
         .companion small {
             display: block;
-            margin-top: 12px;
-            font-size: 0.8rem;
+            margin-top: 16px;
+            font-size: 0.85rem;
             color: #999;
         }
         .card-v1 {
-            width: 340px;
-            opacity: 0.85;
+            width: 380px;
+            opacity: 0.9;
         }
         .card-v1 h2 {
             color: #a0a0a0;
@@ -205,12 +208,13 @@
             opacity: 1;
         }
         footer {
-            margin-top: 64px;
+            margin-top: 80px;
             color: #808080;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             max-width: 900px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.7;
         }
         footer a {
             color: var(--accent);
@@ -226,7 +230,7 @@
             }
             .card-v2, .card-v1 {
                 width: 100%;
-                max-width: 440px;
+                max-width: 480px;
             }
         }
         @media (max-width: 600px) {
@@ -234,7 +238,7 @@
                 padding: 20px;
             }
             .container {
-                gap: 32px;
+                gap: 40px;
             }
             h1 {
                 font-size: 2.8rem;
@@ -242,15 +246,21 @@
             .slogan {
                 font-size: 1.6rem;
             }
+            .tagline {
+                font-size: 1.1rem;
+            }
+            .card p, .companion p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <h1>TimeSeed.io</h1>
-    <!-- Tighter header group: slogan + tagline with minimal spacing -->
+
     <div class="header-group">
-        <h2 class="slogan">Secure encryption keys you can recreate anytime.<br>Fully offline. Quantum-safe. No third parties.</h2>
-        <p class="tagline">Simple, private message encryption and decryption</p>
+        <h2 class="slogan">Secure encryption — fully offline, quantum-safe, no middlemen</h2>
+        <p class="tagline">Simple, text/file encryption and decryption</p>
     </div>
 
     <div class="container">
@@ -261,12 +271,9 @@
                 <h2>
                     <img src="tslogo2.png" alt="Timeseed 2 Logo" class="logo"> Timeseed v2
                 </h2>
-                <p>
-                    The easiest and most modern version.<br>
-                    Enter a secret phrase and a date – it creates a strong, unique key every time (the same key if you use the same phrase and date).<br>
-                    Use that key to safely encrypt or decrypt messages.<br>
-                    Everything happens in your browser – no internet needed.
-                </p>
+                <p>TimeSeed : Generate a timeseed (50 characters), secret password and date to create a strong encryption key. Very high security on keys, encryption and underlying systems.
+				<p>
+				Encrypt/decrypt messages securely before they hit any network/service, all possible in a web browser (works offline, fully private).</p>
                 <a href="https://timeseed.io/v2/" aria-label="Launch Timeseed version 2, recommended">Launch TimeSeed v2 →</a>
             </div>
 
@@ -274,36 +281,31 @@
                 <h3>
                     <img src="lockitlogo1.png" alt="Lockit Logo" class="logo"> Lockit — Phone companion
                 </h3>
-                <p>
-                    A lightweight tool made for phones.<br>
-                    Quickly encrypt or decrypt text using keys created with TimeSeed v2.<br>
-                    Runs entirely on your device – nothing is sent to any server.<br>
-                    Perfect for secure messaging on the go.
-                </p>
+                <p>Lockit: Simple phone tool to quickly encrypt/decrypt text using TimeSeed v2 keys. Runs fully on your device — no data sent anywhere. Perfect for secure messaging on the go.</p>
                 <a href="https://timeseed.io/Lockit/">Open Lockit →</a>
-                <small>Works only with keys from TimeSeed v2</small>
+                <small>Works also with own passwords on-the-go</small>
             </div>
         </div>
 
-               <!-- v1 LEGACY  -->
+              <!-- v1 LEGACY  -->
         <div class="card card-v1">
             <h2>
                 <img src="tslogo1.png" alt="Timeseed Logo" class="logo"> Timeseed v1
                 </span>
             </h2>
             <p>
-                The original version (released April 2025).<br>
-                Kept available as legecy method for messages or seeds created with it.<br>
-                Still secure and works on any device. Basis version. 
+                The original version (2025).<br>
+                Kept available as legecy method for messages or seeds created earlier.<br>
+                Secure, and works on any device. <br>Basis version.<br>Encrypted text is not-compatible with version v2 or later!
             </p>
             <a href="/v1/index.html" aria-label="Launch Timeseed version 1, legacy">Launch v1 →</a>
         </div>
     </div>
-    
+
     <footer>
-        Each version includes its own step-by-step guide.<br>
-        TimeSeed runs completely in your browser – it works offline or online, with no servers, no accounts, and no one else ever sees your keys.<br>
-        To help support future improvements (like v3), consider donating through our Value-4-Value model <a href="https://timeseed.io/donate.html">(V4V)</a>.<br><br>
+        Each version has its own step-by-step guide inside the tool.<br>
+        TimeSeed runs entirely in your browser — online or offline, with no servers, no accounts, and no one else ever seeing your keys or messages.<br><br>
+        To help support future updates (like v3), consider donating through our Value-4-Value model <a href="https://timeseed.io/donate.html">(V4V)</a>.<br><br>
         <a href="https://github.com/avbpodcast/timeseed.io">Source Code</a> |
         <a href="https://github.com/avbpodcast/timeseed-v2">Source Code v2</a> |
         <a href="https://timeseed.io/v2/TSexplainedv2.html">How does it work?</a> |
@@ -311,4 +313,3 @@
     </footer>
 </body>
 </html>
-
