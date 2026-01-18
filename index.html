@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeSeed.io</title>
-    <!-- Google Fonts: Outfit for headings -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -35,11 +34,27 @@
             font-family: 'Outfit', system-ui, sans-serif;
             letter-spacing: -0.5px;
         }
-        h1 {
-            color: var(--title-color);
+        /* Enhanced title */
+        .title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .main-logo {
+            height: 80px;
             margin-bottom: 12px;
-            font-size: 3.2rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+        }
+        h1 {
+            margin: 0;
+            font-size: 3.6rem;
             font-weight: 700;
+            background: linear-gradient(to right, #ffffff, var(--accent), #a0e0d8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
         .header-group {
             margin: 0 auto 48px;
@@ -55,16 +70,20 @@
         .tagline {
             font-size: 1.2rem;
             color: #b0b0b0;
-            margin: 0;
+            margin: 0 0 12px 0;
             font-weight: 400;
         }
-        .container {
+        .one-liner {
+            font-size: 1.05rem;
+            color: #909090;
+            margin: 0;
+            font-style: italic;
+        }
+        .main-card {
             display: flex;
             justify-content: center;
-            gap: 48px;
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            align-items: stretch;
         }
         .card {
             background: #16213e;
@@ -95,7 +114,7 @@
             line-height: 1.6;
             text-align: left;
         }
-        .card a {
+        .card a.btn {
             display: inline-block;
             padding: 14px 32px;
             background: var(--accent);
@@ -106,7 +125,7 @@
             font-size: 1.05rem;
             transition: background 0.3s ease;
         }
-        .card a:hover {
+        .card a.btn:hover {
             background: var(--accent-hover);
         }
         .logo {
@@ -123,8 +142,8 @@
             display: inline-block;
             margin-bottom: 16px;
         }
-        .card-v2 {
-            width: 460px;
+        .card-main {
+            width: 520px;
             display: flex;
             flex-direction: column;
             gap: 32px;
@@ -159,53 +178,19 @@
             font-size: 0.85rem;
             color: #999;
         }
-        .card-v1 {
-            width: 380px;
-            opacity: 0.9;
-        }
-        .card-v1 h2 {
-            color: #a0a0a0;
-        }
-        .info-tooltip {
-            cursor: help;
+        .companion a.btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
             font-size: 1rem;
-            font-weight: bold;
-            color: #ffffff;
-            background: rgba(255,255,255,0.15);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 10px;
-            transition: background 0.2s ease;
+            transition: background 0.3s ease;
         }
-        .info-tooltip:hover {
-            background: rgba(255,255,255,0.25);
-        }
-        .tooltip-text {
-            visibility: hidden;
-            background: #16213e;
-            color: #e0e0e0;
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid #2a2a4a;
-            position: absolute;
-            bottom: 140%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            font-size: 0.9rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            z-index: 10;
-            pointer-events: none;
-        }
-        .info-tooltip:hover .tooltip-text, .info-tooltip:focus .tooltip-text {
-            visibility: visible;
-            opacity: 1;
+        .companion a.btn:hover {
+            background: var(--accent-hover);
         }
         footer {
             margin-top: 80px;
@@ -223,25 +208,28 @@
         footer a:hover {
             text-decoration: underline;
         }
-        @media (max-width: 900px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .card-v2, .card-v1 {
-                width: 100%;
-                max-width: 480px;
-            }
+        .legacy-link {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #3a3a5a;
+            font-size: 0.95rem;
+            color: #808080;
+        }
+        .legacy-link a {
+            color: var(--accent);
+        }
+        .legacy-link a:hover {
+            text-decoration: underline;
         }
         @media (max-width: 600px) {
             body {
                 padding: 20px;
             }
-            .container {
-                gap: 40px;
+            .main-logo {
+                height: 64px;
             }
             h1 {
-                font-size: 2.8rem;
+                font-size: 3rem;
             }
             .slogan {
                 font-size: 1.6rem;
@@ -252,64 +240,60 @@
             .card p, .companion p {
                 font-size: 1rem;
             }
+            .card-main {
+                width: 100%;
+                max-width: 480px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>TimeSeed.io</h1>
+    <div class="title-container">
+        <img src="tslogo2.png" alt="TimeSeed Logo" class="main-logo">
+        <h1>TimeSeed.io</h1>
+    </div>
 
     <div class="header-group">
         <h2 class="slogan">Secure encryption — fully offline, quantum-safe, no middlemen</h2>
-        <p class="tagline">Simple, text/file encryption and decryption</p>
+        <p class="tagline">Messages and files : encrypt them before they hit any service/network.</p>
     </div>
 
-    <div class="container">
-        <!-- v2 PRIMARY -->
-        <div class="card card-v2">
+    <div class="main-card">
+        <div class="card card-main">
             <div>
-                <div class="badge">Recommended</div>
+                <div class="badge">Latest – Post-Quantum Ready</div>
                 <h2>
-                    <img src="tslogo2.png" alt="Timeseed 2 Logo" class="logo"> Timeseed v2
+                    <img src="tslogo2.png" alt="TimeSeed Logo" class="logo"> TimeSeed v3
                 </h2>
-                <p>TimeSeed : Generate a timeseed (50 characters), secret password and date to create a strong encryption key. Very high security on keys, encryption and underlying systems.
-				<p>
-				Encrypt/decrypt messages securely before they hit any network/service, all possible in a web browser (works offline, fully private).</p>
-                <a href="https://timeseed.io/v2/" aria-label="Launch Timeseed version 2, recommended">Launch TimeSeed v2 →</a>
+                <p>TimeSeed v3 is the newest and most future-proof version. It adds ML-KEM (official post-quantum standard) on top of the proven Argon2 key derivation and AES-GCM encryption.</p>
+                <p>Enter a secret phrase and date to create a strong key that's safe even against future quantum computers. Same inputs always recreate the exact key — no need to store it. Encrypt/decrypt text and files securely, all in your browser (works offline, fully private).</p>
+                <a href="https://timeseed.io/v3/" class="btn" aria-label="Launch TimeSeed v3">Launch TimeSeed v3 →</a>
             </div>
-
             <div class="companion">
                 <h3>
                     <img src="lockitlogo1.png" alt="Lockit Logo" class="logo"> Lockit — Phone companion
                 </h3>
-                <p>Lockit: Simple phone tool to quickly encrypt/decrypt text using TimeSeed v2 keys. Runs fully on your device — no data sent anywhere. Perfect for secure messaging on the go.</p>
-                <a href="https://timeseed.io/Lockit/">Open Lockit →</a>
-                <small>Works also with own passwords on-the-go</small>
+                <p>Simple phone tool to quickly encrypt/decrypt text using TimeSeed v3 keys (or direct passwords). Runs fully on your device — no data sent anywhere. Perfect for secure messaging on the go.</p>
+                <a href="https://timeseed.io/Lockit/" class="btn">Open Lockit →</a>
+                <small>Updated for v3 keys</small>
             </div>
-        </div>
-
-              <!-- v1 LEGACY  -->
-        <div class="card card-v1">
-            <h2>
-                <img src="tslogo1.png" alt="Timeseed Logo" class="logo"> Timeseed v1
-                </span>
-            </h2>
-            <p>
-                The original version (2025).<br>
-                Kept available as legecy method for messages or seeds created earlier.<br>
-                Secure, and works on any device. <br>Basis version.<br>Encrypted text is not-compatible with version v2 or later!
-            </p>
-            <a href="/v1/index.html" aria-label="Launch Timeseed version 1, legacy">Launch v1 →</a>
         </div>
     </div>
 
     <footer>
-        Each version has its own step-by-step guide inside the tool.<br>
-        TimeSeed runs entirely in your browser — online or offline, with no servers, no accounts, and no one else ever seeing your keys or messages.<br><br>
-        To help support future updates (like v3), consider donating through our Value-4-Value model <a href="https://timeseed.io/donate.html">(V4V)</a>.<br><br>
-        <a href="https://github.com/avbpodcast/timeseed.io">Source Code</a> |
-        <a href="https://github.com/avbpodcast/timeseed-v2">Source Code v2</a> |
-        <a href="https://timeseed.io/v2/TSexplainedv2.html">How does it work?</a> |
+        TimeSeed runs in a web browser (online or offline), with no servers, no service fees, <br>no accounts to create and no one else ever seeing your keys or messages unencrypted.<br><br>
+        To help support future updates, consider donating through our Value-4-Value model <a href="https://timeseed.io/donate.html">(V4V)</a>.<br><br>
+        <a href="https://github.com/avbpodcast/timeseed.io">on Github</a> |
+        <a href="https://github.com/avbpodcast/timeseed.io/tree/07fc0d3838de9368926d694f0d7dd1d707037e3d/v3">v3 Source Code </a> |
+        <a href="https://timeseed.io/v3/TSexplainedv3.html">How does it work?</a> |
         <a href="https://timeseed.io/donate.html">Donate</a>
+       <!-- Proof of work is life -->
+        <div class="legacy-link">
+            Previous versions:<br>
+            <a href="https://timeseed.io/v2/">TimeSeed v2 →</a> (baked into v3 as well)<br>
+            <a href="/v1/index.html">TimeSeed Classic (v1) →</a>(basic version)<br>
+            <small>Note: Encrypted data from v1 is not compatible with v3.</small>
+        </div>
     </footer>
 </body>
 </html>
