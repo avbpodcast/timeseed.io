@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimeSeed.io &mdash; encrypt before it leaves your device</title>
+<meta name="description" content="TimeSeed creates a random 50-character key on your device and derives your encryption key from it, right in your browser and fully offline. Encrypted messages and files travel as an unreadable blob; only their size and timing stay visible.">
+<style>
+/* ===================================================================
+   TimeSeed.io — main landing page
+   Restyled to match "The Sovereign" onboarding (build TS14).
+   Standalone HTML; logo loaded from timeseed.io.
+   =================================================================== */
+:root{
+  --zinc-950:#09090b; --zinc-900:#18181b; --zinc-850:#1c1c1f; --zinc-800:#27272a;
+  --zinc-700:#3f3f46; --zinc-600:#52525b; --zinc-500:#71717a; --zinc-400:#a1a1aa;
+  --zinc-300:#d4d4d8; --zinc-200:#e4e4e7; --zinc-100:#f4f4f5; --zinc-50:#fafafa;
+  --em-400:#34d399; --em-500:#10b981; --em-600:#059669; --em-700:#047857;
+  --em-800:#065f46; --em-900:#064e3b; --em-950:#022c22;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono","Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--sans);background:var(--zinc-950);color:var(--zinc-200);
+  line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-weight:600;line-height:1.15;letter-spacing:-0.02em;color:#fff;}
+p{line-height:1.625;}
+a{color:inherit;}
+
+/* ---- layout helpers ---- */
+.wrap{max-width:72rem;margin:0 auto;padding:0 1.5rem;}
+.anchor{scroll-margin-top:92px;}
+.eyebrow{
+  display:inline-block;color:var(--em-400);font-size:.875rem;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.lead{color:var(--zinc-400);font-size:1rem;}
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  font-family:var(--sans);font-weight:600;cursor:pointer;text-decoration:none;
+  border:1px solid transparent;border-radius:1.5rem;line-height:1;
+  transition:transform .12s ease,background-color .12s ease,border-color .12s ease;
+}
+.btn:active{transform:translateY(1px);}
+.btn--white{background:#fff;color:var(--zinc-950);padding:1rem 2rem;}
+.btn--white:hover{transform:scale(1.03);}
+.btn--ghost{background:transparent;color:#fff;border-color:var(--zinc-700);padding:1rem 2rem;font-weight:500;}
+.btn--ghost:hover{border-color:var(--em-400);}
+.btn--em{background:var(--em-500);color:var(--zinc-950);padding:1rem 2rem;}
+.btn--em:hover{background:var(--em-600);}
+.btn--xl{padding:1.25rem 2.5rem;font-size:1.125rem;}
+.btn--xl:hover{transform:scale(1.03);}
+
+/* ---- navbar ---- */
+.nav{
+  position:sticky;top:0;z-index:50;border-bottom:1px solid var(--zinc-800);
+  background:rgba(9,9,11,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;gap:1.5rem;}
+.brand{display:flex;align-items:center;gap:.75rem;}
+.brand-logo{
+  width:2.5rem;height:2.5rem;flex:none;
+  border-radius:.5rem;object-fit:cover;display:block;
+}
+.brand-name{font-size:1.5rem;letter-spacing:-0.04em;font-weight:600;}
+.nav-links{display:flex;align-items:center;gap:1.5rem;font-size:.875rem;font-weight:500;}
+.nav-links a{text-decoration:none;color:var(--zinc-200);transition:color .12s ease;white-space:nowrap;}
+.nav-links a:hover{color:#fff;}
+.nav-links a.cta{color:var(--em-400);}
+
+/* ---- hero ---- */
+.hero{
+  border-bottom:1px solid var(--zinc-800);
+  background:
+    radial-gradient(1100px 480px at 78% -8%, rgba(16,185,129,0.16), transparent 60%),
+    linear-gradient(160deg,#0a0a0a 0%,#111827 100%);
+}
+.hero-inner{padding:7rem 0;}
+.badge-pill{
+  display:inline-block;padding:.5rem 1rem;background:var(--em-950);color:var(--em-400);
+  font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid rgba(16,185,129,.3);border-radius:1.5rem;
+}
+.hero h1{font-size:4.5rem;margin-top:1.5rem;line-height:1.05;max-width:48rem;}
+.hero-sub{margin-top:1.5rem;font-size:1.125rem;color:var(--zinc-400);max-width:38rem;}
+.btn-row{margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:1rem;}
+.hero-checks{
+  margin-top:3rem;display:flex;flex-wrap:wrap;gap:.75rem 2rem;
+  font-size:.875rem;color:var(--zinc-500);
+}
+
+/* ---- generic section ---- */
+.section{padding:5rem 0;}
+.section--bordered{border-top:1px solid var(--zinc-800);}
+.section-head-left{max-width:42rem;}
+.section-head-left h2{font-size:3rem;margin-top:.75rem;}
+.section-head-left .lead{margin-top:1rem;}
+.section-head-center{text-align:center;margin-bottom:3.5rem;}
+.section-head-center h2{font-size:3rem;margin-top:.75rem;}
+.section-head-center .lead{margin-top:1rem;max-width:34rem;margin-left:auto;margin-right:auto;}
+
+/* ---- card grids ---- */
+.grid{display:grid;gap:1.5rem;}
+.grid--2{grid-template-columns:repeat(2,1fr);margin-top:3rem;}
+.grid--3{grid-template-columns:repeat(3,1fr);margin-top:3rem;}
+.card{background:var(--zinc-900);border:1px solid var(--zinc-800);border-radius:1.5rem;padding:1.75rem;}
+.card--accent{border-color:rgba(16,185,129,.3);}
+.card-icon{font-size:1.875rem;}
+.card h3{font-size:1.25rem;margin-top:1rem;}
+.card p{font-size:.875rem;color:var(--zinc-400);margin-top:.5rem;}
+.feature-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.feature-card:hover{
+  transform:translateY(-4px);box-shadow:0 20px 25px -5px rgba(16,185,129,.12);
+  border-color:rgba(16,185,129,.5);
+}
+
+/* ---- tool cards ---- */
+.tool-card{display:flex;flex-direction:column;padding:2rem;}
+.tool-card:hover{
+  transform:translateY(-4px);box-shadow:0 20px 25px -5px rgba(16,185,129,.12);
+  border-color:rgba(16,185,129,.5);
+}
+.card-head{display:flex;align-items:center;gap:.9rem;}
+.tool-icon{
+  width:3rem;height:3rem;flex:none;border-radius:.9rem;
+  background:var(--em-950);border:1px solid rgba(16,185,129,.3);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+}
+.tool-tag{font-family:var(--mono);color:var(--em-400);font-size:.78rem;letter-spacing:.04em;}
+.tool-card h3{font-size:1.4rem;margin-top:.15rem;}
+.tool-card > p{font-size:.95rem;color:var(--zinc-400);margin-top:1.1rem;line-height:1.6;}
+.under-hood{
+  margin-top:1rem;padding-top:1rem;border-top:1px solid var(--zinc-800);
+  font-size:.8rem;color:var(--zinc-500);
+}
+.spacer{flex:1;}
+.tool-card .btn{margin-top:1.5rem;}
+
+/* ---- legacy note ---- */
+.legacy{
+  margin-top:1.5rem;border:1px solid var(--zinc-800);border-radius:1.25rem;
+  padding:1.25rem 1.5rem;background:var(--zinc-900);
+  font-size:.875rem;color:var(--zinc-400);line-height:1.7;
+}
+.legacy strong{color:#fff;font-weight:600;}
+.legacy a{color:var(--em-400);text-decoration:none;}
+.legacy a:hover{text-decoration:underline;}
+
+/* ---- "go further" express frame ---- */
+.express{
+  border-radius:1.5rem;padding:3.5rem;text-align:center;
+  border:1px solid rgba(16,185,129,.4);
+  background:linear-gradient(135deg,rgba(6,78,59,.7) 0%,#18181b 70%);
+}
+.express h3{font-size:2.25rem;margin-top:.75rem;}
+.express p.lead{margin-top:1rem;color:var(--zinc-300);max-width:38rem;margin-left:auto;margin-right:auto;}
+.express .btn{margin-top:2rem;}
+
+/* ---- footer ---- */
+.footer{background:#000;border-top:1px solid var(--zinc-800);padding:3.5rem 0;}
+.footer-trust{
+  max-width:46rem;margin:0 auto;text-align:center;
+  color:var(--zinc-400);font-size:.95rem;line-height:1.75;
+}
+.footer-links{
+  margin-top:1.75rem;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:.5rem 1.5rem;font-size:.875rem;
+}
+.footer-links a{color:var(--em-400);text-decoration:none;}
+.footer-links a:hover{text-decoration:underline;}
+.footer-legacy{margin-top:1.5rem;text-align:center;font-size:.8rem;color:var(--zinc-500);line-height:1.7;}
+.footer-legacy a{color:var(--zinc-300);}
+.footer-meta{margin-top:2rem;text-align:center;font-size:.75rem;color:var(--zinc-600);}
+
+/* ---- responsive ---- */
+@media (max-width:1024px){
+  .hero h1{font-size:3.25rem;}
+}
+@media (max-width:768px){
+  .nav-links{display:none;}
+  .hero-inner{padding:5rem 0;}
+  .hero h1{font-size:2.5rem;}
+  .section{padding:3.5rem 0;}
+  .grid--2{grid-template-columns:1fr;}
+  .grid--3{grid-template-columns:1fr;}
+  .section-head-left h2,.section-head-center h2{font-size:2.25rem;}
+  .express{padding:2rem;}
+  .express h3{font-size:1.75rem;}
+}
+</style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <div class="brand">
+        <img class="brand-logo" alt="TimeSeed.io logo" src="https://timeseed.io/tslogo2.png">
+        <span class="brand-name">TimeSeed.io</span>
+      </div>
+      <div class="nav-links">
+        <a href="#why">Why TimeSeed</a>
+        <a href="#tools">Tools</a>
+        <a href="https://timeseed.io/v3/TSexplainedv3.html">How it works</a>
+        <a href="https://timeseed.io/donate.html">Donate</a>
+        <a href="#sovereign" class="cta">The Sovereign &rarr;</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <span class="badge-pill">Post-quantum ready &bull; 100% in your browser</span>
+      <h1>Encrypt your words before they ever leave your device.</h1>
+      <p class="hero-sub">TimeSeed creates a random 50-character key on your device &mdash; that is your secret. From it, plus the date you pick and any pepper words you add, the tool derives the key that encrypts your messages and files, right in your browser and fully offline. Whatever app or network carries the result sees only an encrypted blob &mdash; never the contents, though its size and timing remain visible.</p>
+      <div class="btn-row">
+        <a href="https://timeseed.io/v3/" class="btn btn--white">Launch TimeSeed v3 &rarr;</a>
+        <a href="#tools" class="btn btn--ghost">See the tools</a>
+      </div>
+      <div class="hero-checks">
+        <span>&#10003; No central server, no accounts, no fees</span>
+        <span>&#10003; Works fully offline</span>
+        <span>&#10003; Your derived key is never stored</span>
+        <span>&#10003; Keep TimeSeed and peppers offline &mdash; safe in transit 20+ years</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Why -->
+  <section id="why" class="anchor wrap section">
+    <div class="section-head-left">
+      <span class="eyebrow">Why TimeSeed</span>
+      <h2>Your keys and your words never leave your hands.</h2>
+      <p class="lead">TimeSeed does all of its work inside your own browser. There is nothing to sign up for, nothing stored on a server, and no one in the middle who could ever read what you write.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card feature-card">
+        <div class="card-icon" aria-hidden="true">&#128737;</div>
+        <h3>No middlemen</h3>
+        <p>No central server ever handles your message &mdash; you create and encrypt it offline, on your own device. No accounts, nothing to sign up for, and no company sitting between you and the people you write to.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="card-icon" aria-hidden="true">&#128187;</div>
+        <h3>Works offline</h3>
+        <p>Everything happens inside your browser. Disconnect from the internet entirely and TimeSeed still generates keys and encrypts your text and files.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="card-icon" aria-hidden="true">&#9883;</div>
+        <h3>Post-quantum ready</h3>
+        <p>TimeSeed v3 adds ML-KEM, the official post-quantum standard, so your messages stay sealed even against future quantum computers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section id="tools" class="anchor wrap section section--bordered">
+    <div class="section-head-center">
+      <span class="eyebrow">The tools</span>
+      <h2>Pick where you want to encrypt.</h2>
+      <p class="lead">Two tools, the same TimeSeed keys. Use the full version in any browser, or the phone companion when you are on the go.</p>
+    </div>
+    <div class="grid grid--2">
+
+      <!-- TimeSeed v3 -->
+      <div class="card tool-card feature-card card--accent">
+        <div class="card-head">
+          <div class="tool-icon" aria-hidden="true">&#128273;</div>
+          <div>
+            <div class="tool-tag">LATEST &bull; v3</div>
+            <h3>TimeSeed v3</h3>
+          </div>
+        </div>
+        <p>Create a random 50-character TimeSeed &mdash; that is your secret. From it, the date you choose and any pepper words you add, TimeSeed derives the actual encryption key. That derived key is never stored: the same inputs re-create it every time. Encrypt and decrypt text and files, all in your browser, online or off.</p>
+        <p class="under-hood">Under the hood: ML-KEM post-quantum encryption layered on proven Argon2 key derivation and AES-GCM.</p>
+        <div class="spacer"></div>
+        <a href="https://timeseed.io/v3/" class="btn btn--white" aria-label="Launch TimeSeed v3">Launch TimeSeed v3 &rarr;</a>
+      </div>
+
+      <!-- Lockit -->
+      <div class="card tool-card feature-card">
+        <div class="card-head">
+          <div class="tool-icon" aria-hidden="true">&#128241;</div>
+          <div>
+            <div class="tool-tag">PHONE COMPANION</div>
+            <h3>Lockit</h3>
+          </div>
+        </div>
+        <p>A simple phone tool for encrypting and decrypting text on the go, using your TimeSeed v3 keys or a direct password. Runs entirely on your device &mdash; nothing is ever sent anywhere.</p>
+        <p class="under-hood">Updated for v3 keys.</p>
+        <div class="spacer"></div>
+        <a href="https://timeseed.io/lockit/" class="btn btn--ghost">Open Lockit &rarr;</a>
+      </div>
+
+    </div>
+
+    <div class="legacy">
+      <strong>Earlier versions.</strong> <a href="https://timeseed.io/v2/">TimeSeed v2 &rarr;</a> is still available and is also baked into v3. <a href="https://timeseed.io/v1/index.html">TimeSeed Classic v1 &rarr;</a> remains online as the basic version. Note: data encrypted with v1 is not compatible with v3.
+    </div>
+  </section>
+
+  <!-- Go further: The Sovereign -->
+  <section id="sovereign" class="anchor wrap section section--bordered">
+    <div class="express">
+      <span class="eyebrow">Go further</span>
+      <h3>Add a second layer &mdash; become Sovereign.</h3>
+      <p class="lead">The Sovereign is a second, independent layer of encryption that you control yourself, sitting on top of whatever messenger you already use. New to it? The onboarding walks you and a contact through the whole setup in about ten minutes &mdash; and ends with a card you can print.</p>
+      <a href="https://timeseed.io/sovereign/" class="btn btn--em btn--xl">Open the Sovereign onboarding &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer-trust">TimeSeed runs entirely in your web browser, online or offline. No central server ever handles your messages, there are no accounts and no service fees, and no one else ever sees your keys or your messages unencrypted. To help support future updates, consider donating through our Value-4-Value (V4V) model.</p>
+      <div class="footer-links">
+        <a href="https://github.com/avbpodcast/timeseed.io">GitHub</a>
+        <a href="https://github.com/avbpodcast/timeseed.io/tree/07fc0d3838de9368926d694f0d7dd1d707037e3d/v3">v3 source code</a>
+        <a href="https://timeseed.io/v3/TSexplainedv3.html">How does it work?</a>
+        <a href="https://timeseed.io/donate.html">Donate (V4V)</a>
+        <a href="#sovereign">The Sovereign</a>
+      </div>
+      <p class="footer-legacy">Previous versions: <a href="https://timeseed.io/v2/">TimeSeed v2</a> (baked into v3) &bull; <a href="https://timeseed.io/v1/index.html">TimeSeed Classic v1</a> &bull; encrypted data from v1 is not compatible with v3.</p>
+      <p class="footer-meta">TimeSeed.io &bull; runs entirely in your browser &bull; proof of work is life.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
