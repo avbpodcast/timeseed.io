@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sovereign Encryption — what it is, how it works</title>
+<meta name="description" content="A single-file, browser-based, post-quantum encryption tool you can use as a private second layer on top of any messenger.">
+<style>
+  :root{
+    --paper:#e6e5e0;
+    --ink:#15161a;
+    --ink-soft:#3f3f46;
+    --ink-faint:#6a6a66;
+    --rule:#cfcec8;
+    --rule-soft:#dcdbd4;
+    --card:#f4f3ee;
+    --card-2:#eceae3;
+    --accent:#6b1f1a;       /* oxblood */
+    --accent-soft:#ead8d4;
+    --moss:#3a5a32;
+    --serif:'Crimson Pro', Georgia, 'Times New Roman', serif;
+    --sans:'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif;
+    --mono:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.6; }
+  a{ color:var(--ink); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+  a:hover{ color:var(--accent); text-decoration-color:var(--accent); }
+
+  /* ===== Top bar ===== */
+  .bar{
+    border-bottom:1px solid var(--rule);
+    padding:20px 28px;
+    display:flex; align-items:baseline; justify-content:space-between; gap:18px; flex-wrap:wrap;
+    background:var(--paper);
+  }
+  .brand{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+  .wordmark{ font-family:var(--serif); font-size:24px; font-weight:600; color:var(--ink); letter-spacing:-.01em; }
+  .tag, .build{ font-family:var(--mono); font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:.13em; padding:3px 8px; border:1px solid var(--rule); color:var(--ink-faint); }
+  .nav{ display:flex; gap:18px; font-family:var(--mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase; }
+  .nav a{ color:var(--ink-soft); text-decoration:none; }
+  .nav a:hover{ color:var(--accent); }
+
+  /* ===== Page wrapper ===== */
+  .page{ max-width:980px; margin:0 auto; padding:48px 28px 80px; }
+  section{ margin-top:64px; }
+  section:first-of-type{ margin-top:36px; }
+
+  /* ===== Hero ===== */
+  .eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); }
+  h1{ font-family:var(--serif); font-size:46px; line-height:1.05; font-weight:600; letter-spacing:-.02em; margin:8px 0 14px; max-width:740px; }
+  .lead{ font-family:var(--sans); font-size:18px; line-height:1.55; color:var(--ink-soft); margin:0 0 26px; max-width:680px; }
+  .hero-cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:8px; }
+  .btn{ font-family:var(--mono); font-size:12px; letter-spacing:.13em; text-transform:uppercase; padding:11px 18px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer; text-decoration:none; }
+  .btn:hover{ background:#000; color:var(--paper); text-decoration:none; }
+  .btn.secondary{ background:transparent; color:var(--ink); }
+  .btn.secondary:hover{ background:var(--card-2); color:var(--ink); }
+
+  /* ===== Infographic ===== */
+  .figure{
+    margin:36px 0 0;
+    border:1px solid var(--rule);
+    background:var(--card);
+    padding:18px;
+  }
+  .figure img{ display:block; width:100%; height:auto; }
+  .figure .caption{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; color:var(--ink-faint); margin-top:10px; text-align:right; }
+  .figure-missing{
+    padding:60px 24px;
+    border:1px dashed var(--rule);
+    text-align:center;
+    color:var(--ink-faint);
+    font-family:var(--mono);
+    font-size:12px;
+    line-height:1.6;
+  }
+
+  /* ===== Section headings ===== */
+  h2{ font-family:var(--serif); font-size:30px; font-weight:600; letter-spacing:-.015em; margin:0 0 6px; color:var(--ink); }
+  .section-sub{ font-family:var(--sans); font-size:13.5px; color:var(--ink-faint); margin:0 0 22px; }
+  h3{ font-family:var(--serif); font-size:20px; font-weight:600; margin:0 0 6px; color:var(--ink); }
+  p{ margin:0 0 14px; }
+  ul{ margin:0 0 14px; padding-left:22px; }
+  li{ margin-bottom:6px; }
+
+  /* ===== Three-step / why grid ===== */
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:18px; }
+  .card{
+    border:1px solid var(--rule);
+    background:var(--card);
+    padding:18px 18px 20px;
+  }
+  .card-tag{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px; }
+  @media (max-width:760px){ .grid-3{ grid-template-columns:1fr; } }
+
+  /* ===== Technical table ===== */
+  table{
+    width:100%; border-collapse:collapse; margin:14px 0 20px;
+    font-family:var(--mono); font-size:13px;
+  }
+  th, td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  th{ background:var(--card); font-weight:600; letter-spacing:.04em; text-transform:uppercase; font-size:11px; color:var(--ink-soft); }
+
+  pre{
+    background:var(--card-2);
+    border:1px solid var(--rule);
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    line-height:1.55;
+    overflow-x:auto;
+    margin:10px 0 18px;
+  }
+  code{ font-family:var(--mono); font-size:.92em; background:var(--card-2); padding:1px 5px; border:1px solid var(--rule-soft); }
+
+  /* ===== Pull quote ===== */
+  blockquote{
+    border-left:3px solid var(--accent);
+    padding:6px 18px;
+    margin:18px 0;
+    font-family:var(--serif);
+    font-size:18px;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  /* ===== Footer ===== */
+  footer{
+    margin-top:80px;
+    padding-top:24px;
+    border-top:1px solid var(--rule);
+    color:var(--ink-faint);
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.06em;
+    line-height:1.6;
+  }
+  .donate{
+    margin:0 0 14px;
+    padding:12px 14px;
+    border:1px solid var(--rule);
+    background:var(--card);
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:12px;
+  }
+  .donate-label{ font-weight:600; text-transform:uppercase; letter-spacing:.13em; font-size:11px; color:var(--ink); }
+  .donate a{ color:var(--ink); font-weight:500; }
+  .donate a:hover{ color:var(--accent); }
+
+  @media (max-width:640px){
+    h1{ font-size:34px; }
+    h2{ font-size:24px; }
+    .lead{ font-size:16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="brand">
+    <span class="wordmark">Sovereign Encryption</span>
+    <span class="tag">POST-QUANTUM</span>
+    <span class="tag">BROWSER-NATIVE</span>
+  </div>
+  <nav class="nav">
+    <a href="#what">What</a>
+    <a href="#how">How</a>
+    <a href="#why">Why</a>
+    <a href="#tech">Tech</a>
+    <a href="#get">Get it</a>
+  </nav>
+</div>
+
+<div class="page">
+
+  <!-- ===== Hero ===== -->
+  <section>
+    <span class="eyebrow">YOUR PRIVATE LAYER, INSIDE ANY MESSENGER</span>
+    <h1>Encrypt anything locally. Send it through any chat. Nobody in the middle can read it.</h1>
+    <p class="lead">Sovereign Encryption is a single HTML file. That's it, no installs, no apps, no .exe. Open it, generate a keypair, share your public key to a correspondent and encrypt messages and files locally. The ciphertext travels over anything like: WhatsApp, Signal, Nostr, email, paper — whichever channel you already use. No google account, no central servers, no tracking, no corporations.</p>
+    <div class="hero-cta">
+      <a class="btn" href="Sovereign_Encryption_050.html">Open the tool &rarr;</a>
+      <a class="btn secondary" href="https://timeseed.io/donate" target="_blank" rel="noopener">Support development</a>
+    </div>
+
+    <figure class="figure">
+      <img src="Sovereign_Encryption_infographic.webp" alt="Sovereign Encryption infographic: encrypt in browser, no servers, post-quantum security, bypass surveillance" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="figure-missing" style="display:none;">
+        Save the infographic as <code>Sovereign_Encryption_infographic.webp</code> in this folder<br>and reload — it'll appear here.
+      </div>
+      <div class="caption">SOURCE — INFOGRAPHIC IN DUTCH: WHAT, HOW, WHY</div>
+    </figure>
+  </section>
+
+  <!-- ===== What it is ===== -->
+  <section id="what">
+    <h2>What it is</h2>
+  <p class="section-sub">A short description in plain language.</p>
+
+    <p>Imagine your messenger — WhatsApp, Telegram, Signal, email, whatever — as the post office. The post office promises to keep your letters private. But the post office is also a company, in a country, with rules and laws and engineers who can be pressured. If something goes wrong with the post office, your letters go with it.</p>
+
+    <p>Sovereign Encryption is an envelope you put your letter into <em>before</em> handing it to the post office. The post office sees a sealed envelope — it can deliver it, but it cannot open it. Only the person you wrote it for can.</p>
+
+    <p>The envelope sealer is a single HTML file you open in your browser. It runs entirely on your computer. There is no website, no account to sign up for, no server that sees your messages. You can save the file, copy it to a USB stick, run it on a laptop with the Wi-Fi turned off.</p>
+
+    <blockquote>
+      The messenger does the delivery. Sovereign Encryption does the privacy.
+    </blockquote>
+  </section>
+  </section>
+
+  <!-- ===== How it works ===== -->
+  <section id="how">
+    <h2>How it works</h2>
+    <p class="section-sub">Three steps. Same as the infographic above, in English.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <span class="card-tag">STEP 1 &middot; ENCRYPT</span>
+       <h3>In your browser</h3>
+<p>You type a message or pick a file. Your browser encrypts it using your recipient's public key, something you collect once, like an email address. The result is a chunk of ciphertext that only their private key can unlock.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">STEP 2 &middot; SEND</span>
+       <h3>Through any messenger</h3>
+<p>Paste the ciphertext into a normal chat or download the <code>.locked</code> file and attach it. The messenger sees only random-looking characters. It can't read the content, and neither can anyone watching the network.</p>
+
+      </div>
+      <div class="card">
+        <span class="card-tag">STEP 3 &middot; DECRYPT</span>
+        <h3>Recipient opens the page</h3>
+        <p>They open their own copy of Sovereign Encryption, paste in what you sent, and click <em>Decrypt</em>. The message appears. They can reply the same way.</p>
+      </div>
+    </div>
+
+    <p>The whole exchange involves no third party once you've swapped public keys. There is nothing for an outsider to subpoena, no server to break into, no account to compromise.</p>
+  </section>
+
+  <!-- ===== Why ===== -->
+  <section id="why">
+    <h2>Why this matters</h2>
+    <p class="section-sub">A few reasons people use it.</p>
+
+    <h3>Your messenger can change its mind</h3>
+    <p>Every major messenger has, at some point, changed its privacy stance, added scanning, or had a breach. End-to-end encryption inside a closed app is only as durable as the app's commitment. Putting the encryption <em>outside</em> the app means you keep control even when the app doesn't.</p>
+
+    <h3>Quantum computers, eventually</h3>
+    <p>Classical key-exchange algorithms (RSA, elliptic-curve) will eventually be broken by sufficiently large quantum computers. Adversaries are already recording encrypted traffic today, hoping to decrypt it later — the so-called "harvest now, decrypt later" attack. Sovereign Encryption uses <strong>ML-KEM-768</strong>, a NIST-standardised post-quantum key exchange (FIPS 203, August 2024), so a future quantum computer doesn't retroactively expose today's messages.</p>
+
+    <h3>No accounts means no metadata</h3>
+    <p>There is no signup. There is no login. The tool doesn't even know your name. The only persistent state on your machine is your `.se.key` file (which you control) and a local address book stored in your browser. There is no server to leak.</p>
+
+    <h3>It works offline</h3>
+    <p>Once you've saved the HTML file, the tool runs with no network at all. You can verify this yourself in DevTools — the Network tab stays empty while you use it.</p>
+  </section>
+
+  <!-- ===== For technical users ===== -->
+  <section id="tech">
+    <h2>For technical users</h2>
+    <p class="section-sub">The minimum you need to know before trusting the construction.</p>
+
+    <h3>Primitives</h3>
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Algorithm</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Key encapsulation</td><td>ML-KEM-768 (FIPS 203)</td></tr>
+        <tr><td>Symmetric cipher</td><td>AES-256-GCM, 12-byte IV per message, AEAD over the header</td></tr>
+        <tr><td>Key derivation</td><td>HKDF-SHA-256 over the ML-KEM shared secret</td></tr>
+        <tr><td>Optional private-key wrap</td><td>Argon2id (t=5, m=128 MiB, p=1) + AES-256-GCM</td></tr>
+        <tr><td>Fingerprint</td><td>First 8 bytes of SHA-256 over the public key, hex, dash-grouped: <code>XXXX-XXXX-XXXX-XXXX</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Text wire format (v6)</h3>
+    <pre>"TS4" (3 B) + 0x06 (version) + 0x01 (kemId = ML-KEM-768)
+  + IV (12 B)
+  + ctKemLen (u16 BE) + ctKem (1088 B)
+  + AES-256-GCM ciphertext</pre>
+    <p>The whole thing is hex-encoded for paste-into-chat use. The 1106-byte header is bound as AEAD additional-data, so tampering with any header byte fails decryption.</p>
+
+    <h3>File wire format (TS4F v6)</h3>
+    <p>PEM-style armored text. Header lines: <code>Version</code>, <code>Container</code>, <code>Scheme</code>, <code>Recipient: sha256/8: &lt;fp&gt;</code>, optional <code>Sender</code> and <code>Sender-PK</code> (when "Let the recipient reply to me" is enabled), <code>Created</code>, <code>File-name</code>, <code>Mime</code>, <code>File-size</code>, <code>Comment</code>. Body is base64.</p>
+
+    <h3>Threat model — be honest about it</h3>
+    <p>Sovereign Encryption gives you <strong>confidentiality</strong>: nobody but the holder of the matching private key can read the plaintext. It does <em>not</em> by itself give you <strong>authenticity</strong>. If an attacker can hand you their public key while claiming to be your friend, you'll encrypt to the attacker.</p>
+    <p>The fix is to compare fingerprints out-of-band — in person, on a voice call where you recognise each other, or via a channel you already trust. The Identity Passport view in the tool exists to make this comparison easy and visual.</p>
+
+    <h3>Browser primitives used</h3>
+    <p><code>crypto.subtle</code> (Web Crypto), <code>crypto.getRandomValues</code>, WebAssembly (for Argon2id), <code>localStorage</code> (for the address book and the self-test cache). The startup self-test verifies the first three before the page lets you do anything.</p>
+
+    <h3>Source code</h3>
+    <p>The entire application is the HTML file. There is no build step. Open it in a text editor and read the source: helpers, parser, UI wiring, crypto routines. The ML-KEM library and Argon2 WASM are inlined; their respective sources are pointed to in the file comments.</p>
+  </section>
+
+  <!-- ===== Get the tool ===== -->
+  <section id="get">
+    <h2>Get the tool</h2>
+    <p class="section-sub">Download the file, open it, use it.</p>
+    <p>Right-click and save, or open it directly in the browser:</p>
+    <p><a class="btn" href="Sovereign_Encryption_050.html">Open Sovereign Encryption &rarr;</a></p>
+    <p>It is a single file. You can email it to yourself, put it on a USB stick, host it on any static web server, or run it from <code>file://</code>. There is nothing else to install.</p>
+  </section>
+
+  <footer>
+    <p class="donate">
+      <span class="donate-label">SUPPORT DEVELOPMENT</span>
+      <a href="https://timeseed.io/donate" target="_blank" rel="noopener">timeseed.io/donate &rarr;</a>
+    </p>
+    <p>SOVEREIGN ENCRYPTION — MIT-LICENSED, BROWSER-NATIVE, NO SERVERS. THE TOOL IS THE FILE.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
