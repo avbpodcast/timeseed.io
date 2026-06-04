@@ -124,6 +124,15 @@
     font-style:italic;
   }
 
+  /* ===== Callout / limits box ===== */
+  .callout{
+    border:1px solid var(--rule);
+    background:var(--card);
+    padding:14px 18px;
+    margin:10px 0 18px;
+  }
+  .callout strong{ color:var(--ink); }
+
   /* ===== Footer ===== */
   footer{
     margin-top:80px;
@@ -179,7 +188,7 @@
     <h1>Encrypt anything locally. Send it through any chat. Nobody in the middle can read it.</h1>
     <p class="lead">Sovereign Encryption is a single HTML file. That's it, no installs, no apps, no .exe. Open it, generate a keypair, share your public key to a correspondent and encrypt messages and files locally. The ciphertext travels over anything like: WhatsApp, Signal, Nostr, email, paper — whichever channel you already use. No google account, no central servers, no tracking, no corporations.</p>
     <div class="hero-cta">
-      <a class="btn" href="Sovereign_Encryption_051.html">Open the tool &rarr;</a>
+      <a class="btn" href="Sovereign_Encryption_071.html">Open the tool &rarr;</a>
       <a class="btn secondary" href="https://timeseed.io/donate" target="_blank" rel="noopener">Support development</a>
     </div>
 
@@ -195,7 +204,7 @@
   <!-- ===== What it is ===== -->
   <section id="what">
     <h2>What it is</h2>
-  <p class="section-sub">A short description in plain language.</p>
+    <p class="section-sub">A short description in plain language.</p>
 
     <p>Imagine your messenger — WhatsApp, Telegram, Signal, email, whatever — as the post office. The post office promises to keep your letters private. But the post office is also a company, in a country, with rules and laws and engineers who can be pressured. If something goes wrong with the post office, your letters go with it.</p>
 
@@ -207,7 +216,6 @@
       The messenger does the delivery. Sovereign Encryption does the privacy.
     </blockquote>
   </section>
-  </section>
 
   <!-- ===== How it works ===== -->
   <section id="how">
@@ -217,19 +225,18 @@
     <div class="grid-3">
       <div class="card">
         <span class="card-tag">STEP 1 &middot; ENCRYPT</span>
-       <h3>In your browser</h3>
-<p>You type a message or pick a file. Your browser encrypts it using your recipient's public key, something you collect once, like an email address. The result is a chunk of ciphertext that only their private key can unlock.</p>
+        <h3>In your browser</h3>
+        <p>You type a message or pick a file. Your browser encrypts it using your recipient's public key — something you collect once, like an email address. The result is a chunk of ciphertext that only their private key can unlock.</p>
       </div>
       <div class="card">
         <span class="card-tag">STEP 2 &middot; SEND</span>
-       <h3>Through any messenger</h3>
-<p>Paste the ciphertext into a normal chat or download the <code>.locked</code> file and attach it. The messenger sees only random-looking characters. It can't read the content, and neither can anyone watching the network.</p>
-
+        <h3>Through any messenger</h3>
+        <p>Paste the ciphertext into a normal chat or download the <code>.locked</code> file and attach it. The messenger sees only random-looking characters. It can't read the content, and neither can anyone watching the network.</p>
       </div>
       <div class="card">
         <span class="card-tag">STEP 3 &middot; DECRYPT</span>
         <h3>Recipient opens the page</h3>
-        <p>They open their own copy of Sovereign Encryption. The same html stand-alone page allows for encryption and decryption. Paste in the text you want to encrypt, and click <em>Decrypt</em>. The message appears. They can reply the same way.</p>
+        <p>They open their own copy of Sovereign Encryption — the same standalone HTML page does both encryption and decryption. They paste the ciphertext you sent them and click <em>Decrypt</em>. The message appears. They can reply the same way.</p>
       </div>
     </div>
 
@@ -248,7 +255,7 @@
     <p>Classical key-exchange algorithms (RSA, elliptic-curve) will eventually be broken by sufficiently large quantum computers. Adversaries are already recording encrypted traffic today, hoping to decrypt it later — the so-called "harvest now, decrypt later" attack. Sovereign Encryption uses <strong>ML-KEM-768</strong>, a NIST-standardised post-quantum key exchange (FIPS 203, August 2024), so a future quantum computer doesn't retroactively expose today's messages.</p>
 
     <h3>No accounts means no metadata</h3>
-    <p>There is no signup. There is no login. The tool doesn't even know your name. The only persistent state on your machine is your `.se.key` file (which you control) and a local address book stored in your browser. There is no server to leak.</p>
+    <p>There is no signup. There is no login. The tool doesn't even know your name. The only persistent state on your machine is your <code>.se.key</code> file (which you control) and a local address book stored in your browser. There is no server to leak.</p>
 
     <h3>It works offline</h3>
     <p>Once you've saved the HTML file, the tool runs with no network at all. You can verify this yourself in DevTools — the Network tab stays empty while you use it.</p>
@@ -266,29 +273,51 @@
       </thead>
       <tbody>
         <tr><td>Key encapsulation</td><td>ML-KEM-768 (FIPS 203)</td></tr>
-        <tr><td>Symmetric cipher</td><td>AES-256-GCM, 12-byte IV per message, AEAD over the header</td></tr>
-        <tr><td>Key derivation</td><td>HKDF-SHA-256 over the ML-KEM shared secret</td></tr>
+        <tr><td>Symmetric cipher</td><td>AES-256-GCM, 12-byte IV per message; AEAD over the header</td></tr>
+        <tr><td>Key derivation</td><td>HKDF-SHA-256 over the ML-KEM shared secret, salt = SHA-256(header)</td></tr>
         <tr><td>Optional private-key wrap</td><td>Argon2id (t=5, m=128 MiB, p=1) + AES-256-GCM</td></tr>
         <tr><td>Fingerprint</td><td>First 8 bytes of SHA-256 over the public key, hex, dash-grouped: <code>XXXX-XXXX-XXXX-XXXX</code></td></tr>
       </tbody>
     </table>
 
-    <h3>Text wire format (v6)</h3>
-    <pre>"TS4" (3 B) + 0x06 (version) + 0x01 (kemId = ML-KEM-768)
+    <h3>Text wire format (v7)</h3>
+    <pre>"TS4" (3 B) + 0x07 (version) + 0x01 (kemId = ML-KEM-768)
   + IV (12 B)
   + ctKemLen (u16 BE) + ctKem (1088 B)
   + AES-256-GCM ciphertext</pre>
-    <p>The whole thing is hex-encoded for paste-into-chat use. The 1106-byte header is bound as AEAD additional-data, so tampering with any header byte fails decryption.</p>
+    <p>The whole thing is hex-encoded for paste-into-chat use. The 1106-byte header is bound as AEAD additional-data, and the HKDF salt is <code>SHA-256(header)</code>, so any tamper with the header both fails the AEAD tag and derives a different message key. Legacy v6 blobs (empty HKDF salt) still decrypt.</p>
 
-    <h3>File wire format (TS4F v6)</h3>
-    <p>PEM-style armored text. Header lines: <code>Version</code>, <code>Container</code>, <code>Scheme</code>, <code>Recipient: sha256/8: &lt;fp&gt;</code>, optional <code>Sender</code> and <code>Sender-PK</code> (when "Let the recipient reply to me" is enabled), <code>Created</code>, <code>File-name</code>, <code>Mime</code>, <code>File-size</code>, <code>Comment</code>. Body is base64.</p>
+    <h3>File wire format (TS4F v8 — streaming, binary)</h3>
+    <pre>"TS4F" + 0x08 + 0x01 (kemId)
+  + ctKemLen (u16 BE) + ctKem (1088 B)
+  + baseNonce (8 B) + chunkSize (u32 BE = 1 MiB)
+  + totalSize (u64 BE) + numChunks (u32 BE)
+  + flags (1 B) + fname / mime / [senderPK]
+  + AES-256-GCM ciphertext chunks</pre>
+    <p>Each chunk uses nonce = <code>baseNonce ‖ u32be(i)</code> and AAD = <code>SHA-256(header) ‖ u32be(i) ‖ lastFlag</code>. The <code>lastFlag</code> bit makes truncation detectable. Working memory is one chunk (~1 MB) regardless of file size — input is read via <code>file.slice()</code>, output goes straight to disk via <code>showSaveFilePicker</code> when the browser supports it.</p>
+    <p>Older armored-text file formats (TS4F v6 / v7) and the legacy <code>.timeseed.*</code> filenames still decode, so anything you encrypted with previous builds will still open.</p>
+
+    <h3>File extensions used on disk</h3>
+    <p><code>.se.pub</code> for your public key, <code>.se.key</code> for your private key (optionally wrapped with Argon2id + AES-256-GCM), <code>.locked</code> for an encrypted file. Legacy <code>.timeseed.pub</code> and <code>.timeseed.key</code> still load.</p>
+
+    <h3>File-size limits — and what your recipient needs</h3>
+    <p>Files encrypt in 1 MB chunks, so the encoder's memory ceiling is small. In practice:</p>
+    <ul>
+      <li><strong>Up to ~200 MB</strong> — almost any device, including phones.</li>
+      <li><strong>~200 MB to ~5 GB</strong> — modern desktop browsers, especially Chrome or Edge where Save File Picker streams the output straight to disk.</li>
+      <li><strong>Above ~5 GB</strong> — best effort. Often works on flagship laptops, will likely fail on memory-constrained devices.</li>
+    </ul>
+    <div class="callout">
+      <p><strong>The recipient needs similar capability.</strong> A 4 GB <code>.locked</code> file produced on a fast laptop will fail to decrypt on a low-memory phone. The decoder is symmetric with the encoder: if your hardware/browser can encrypt a file of size X, it can also decrypt one of that size — and if your recipient's hardware can't, they won't be able to open it.</p>
+      <p>The tool warns before processing files in the 200 MB – 5 GB range, and warns more strongly above 5 GB. The same tier applies on decrypt.</p>
+    </div>
 
     <h3>Threat model — be honest about it</h3>
     <p>Sovereign Encryption gives you <strong>confidentiality</strong>: nobody but the holder of the matching private key can read the plaintext. It does <em>not</em> by itself give you <strong>authenticity</strong>. If an attacker can hand you their public key while claiming to be your friend, you'll encrypt to the attacker.</p>
     <p>The fix is to compare fingerprints out-of-band — in person, on a voice call where you recognise each other, or via a channel you already trust. The Identity Passport view in the tool exists to make this comparison easy and visual.</p>
 
     <h3>Browser primitives used</h3>
-    <p><code>crypto.subtle</code> (Web Crypto), <code>crypto.getRandomValues</code>, WebAssembly (for Argon2id), <code>localStorage</code> (for the address book and the self-test cache). The startup self-test verifies the first three before the page lets you do anything.</p>
+    <p><code>crypto.subtle</code> (Web Crypto), <code>crypto.getRandomValues</code>, WebAssembly (for Argon2id), <code>localStorage</code> (for the address book and the self-test cache), and <code>showSaveFilePicker</code> where available (streaming file output on Chromium-based browsers). The startup self-test verifies the core primitives (RNG, ML-KEM, AES-GCM) before the page lets you do anything; a fuller verification panel covers SHA-3, HKDF, Argon2, and the Amulet wordlist on demand.</p>
 
     <h3>Source code</h3>
     <p>The entire application is the HTML file. There is no build step. Open it in a text editor and read the source: helpers, parser, UI wiring, crypto routines. The ML-KEM library and Argon2 WASM are inlined; their respective sources are pointed to in the file comments.</p>
@@ -299,7 +328,7 @@
     <h2>Get the tool</h2>
     <p class="section-sub">Download the file, open it, use it.</p>
     <p>Right-click and save, or open it directly in the browser:</p>
-    <p><a class="btn" href="Sovereign_Encryption_051.html">Open Sovereign Encryption &rarr;</a></p>
+    <p><a class="btn" href="Sovereign_Encryption_071.html">Open Sovereign Encryption &rarr;</a></p>
     <p>It is a single file. You can email it to yourself, put it on a USB stick, host it on any static web server, or run it from <code>file://</code>. There is nothing else to install.</p>
   </section>
 
@@ -308,7 +337,7 @@
       <span class="donate-label">SUPPORT DEVELOPMENT</span>
       <a href="https://timeseed.io/donate" target="_blank" rel="noopener">timeseed.io/donate &rarr;</a>
     </p>
-    <p>SOVEREIGN ENCRYPTION — MIT-LICENSED, BROWSER-NATIVE, NO SERVERS. THE TOOL IS THE FILE.</p>
+    <p>SOVEREIGN ENCRYPTION — MIT-LICENSED, BROWSER-NATIVE, NO SERVERS. THE TOOL IS THE FILE. CURRENT BUILD: 071.</p>
   </footer>
 
 </div>
