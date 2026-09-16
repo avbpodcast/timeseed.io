@@ -3,331 +3,425 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support TimeSeed.io / AVB </title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/lib/qrcode.min.js"></script>
+  <title>Support TimeSeed.io / AVB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: #2D2D2D;
+      --panel: #374151;
+      --inset: #2D2D2D;
+      --line: #6B7280;
+      --text: #F3F4F6;
+      --muted: #D1D5DB;
+      --amber: #F59E0B;
+      --amber-hi: #FBBF24;
+      --teal: #0D9488;
+      --teal-hi: #14B8A6;
+      --ok: #34D399;
+      --err: #F87171;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Poppins', system-ui, sans-serif;
       line-height: 1.6;
       margin: 0;
-      padding: 0;
-      background-color: #2D2D2D;
-      color: #F3F4F6;
+      background-color: var(--bg);
+      color: var(--text);
     }
+
+    a { color: var(--teal-hi); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
     .hero {
       text-align: center;
-      padding: 4rem 2rem;
-      background: linear-gradient(180deg, #374151, #2D2D2D);
+      padding: 4rem 1rem 3rem;
+      background: linear-gradient(180deg, #374151, var(--bg));
     }
+
     h1 {
-      color: #F59E0B;
+      color: var(--amber);
       font-weight: 700;
       font-size: 2.5rem;
-      margin-bottom: 1rem;
+      line-height: 1.2;
+      margin: 0 0 1rem;
     }
-    h2 {
-      color: #F59E0B;
-      font-weight: 600;
-      font-size: 1.5rem;
-    }
-    p, li {
-      color: #F3F4F6;
-    }
-    a {
-      color: #0D9488;
-      text-decoration: none;
-    }
-    a:hover {
-      color: #14B8A6;
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 800px;
+
+    .hero p { max-width: 560px; margin: 0 auto; }
+
+    .wrap {
+      max-width: 880px;
       margin: 0 auto;
-      padding: 2rem;
-      background: #374151;
+      padding: 0 1rem;
+    }
+
+    /* Main methods */
+    .methods {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--panel);
       border-radius: 1rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    .options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .details {
-      text-align: center;
-    }
-    .address {
-      background: #2D2D2D;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      font-family: monospace;
-      color: #F3F4F6;
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
-      margin: 1.5rem 0;
-      border: 1px solid #6B7280;
-    }
-    .highlight-box {
-      background: rgba(13, 148, 136, 0.2);
       padding: 1.5rem;
-      border-radius: 0.75rem;
-      margin-top: 2rem;
-      text-align: center;
-      border: 1px solid #0D9488;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid transparent;
+      transition: border-color 0.2s ease;
     }
-    button {
-      background: #F59E0B;
-      color: #F3F4F6;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
+
+    .card:hover { border-color: var(--teal); }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    h2 {
+      color: var(--amber);
+      font-weight: 600;
+      font-size: 1.35rem;
+      margin: 0;
+    }
+
+    .tag {
+      margin-left: auto;
+      font-size: 0.7rem;
       font-weight: 500;
-      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--teal);
+      color: var(--teal-hi);
+      white-space: nowrap;
+    }
+
+    .desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0.5rem 0 1.25rem;
+    }
+
+    .qr {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 220px;
+      margin-bottom: 1.25rem;
+    }
+
+    .qr img {
+      width: 100%;
+      max-width: 240px;
+      height: auto;
+      border-radius: 0.5rem;
+      border: 2px solid var(--teal);
+      background: #fff;
+    }
+
+    .qr-error { color: var(--err); font-size: 0.85rem; text-align: center; }
+
+    .addr {
+      background: var(--inset);
+      border: 1px solid var(--line);
+      border-radius: 0.5rem;
+      padding: 0.75rem 0.9rem;
+    }
+
+    .addr + .addr { margin-top: 0.6rem; }
+    .card .addr:first-of-type { margin-top: auto; }
+
+    .addr-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .addr-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .addr-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      overflow-wrap: anywhere;
+    }
+
+    button, .btn {
+      font-family: inherit;
+      background: var(--amber);
+      color: #1F2937;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
       cursor: pointer;
       transition: background 0.2s ease, transform 0.2s ease;
     }
-    button:hover {
-      background: #FBBF24;
-      transform: translateY(-1px);
+
+    button:hover, .btn:hover { background: var(--amber-hi); text-decoration: none; }
+    button:active, .btn:active { background: #D97706; }
+    button:focus-visible, .btn:focus-visible, summary:focus-visible { outline: 2px solid var(--teal-hi); outline-offset: 2px; }
+
+    .copy { padding: 0.25rem 0.75rem; font-size: 0.75rem; }
+
+    .btn {
+      display: block;
+      margin-top: 1rem;
+      padding: 0.65rem 1rem;
+      text-align: center;
+      font-size: 0.9rem;
     }
-    button:active {
-      background: #D97706;
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .foot-note {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 0.9rem 0 0;
     }
-    .hidden {
-      display: none;
+
+    /* Demoted Lightning */
+    .lightning {
+      margin-top: 1.25rem;
+      border: 1px dashed var(--line);
+      border-radius: 0.75rem;
+      padding: 0 1.25rem;
     }
-    #qrcode {
-      margin: 1.5rem auto;
+
+    .lightning summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 0.9rem 0;
+      color: var(--muted);
+      font-size: 0.92rem;
       display: flex;
-      justify-content: center;
+      align-items: center;
+      gap: 0.6rem;
     }
-    #qrcode img {
-      max-width: 100%;
-      border-radius: 0.5rem;
-      border: 2px solid #0D9488;
+
+    .lightning summary::-webkit-details-marker { display: none; }
+    .lightning summary::after { content: '+'; margin-left: auto; font-weight: 600; }
+    .lightning[open] summary::after { content: '−'; }
+    .lightning summary:hover { color: var(--text); }
+
+    .lightning-body { padding-bottom: 1.1rem; font-size: 0.88rem; color: var(--muted); }
+    .lightning-body p { margin: 0 0 0.8rem; }
+    .lightning-body strong { color: var(--text); }
+
+    .highlight-box {
+      background: rgba(13, 148, 136, 0.2);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      margin-top: 1.25rem;
+      text-align: center;
+      border: 1px solid var(--teal);
     }
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid #F3F4F6;
-      border-top: 4px solid #F59E0B;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 1.5rem auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+
+    .highlight-box p { margin: 0; }
+
     hr {
       border: 0;
-      border-top: 1px solid #6B7280;
-      margin: 2rem 0;
+      border-top: 1px solid var(--line);
+      margin: 2.5rem 0 1.5rem;
     }
-    small {
-      color: #D1D5DB;
-    }
-    strong {
-      color: #F3F4F6;
-      font-weight: 600;
-    }
+
+    .tagline { text-align: center; margin: 0 1rem; }
+    small { color: var(--muted); }
+
     footer {
-      margin-top: 2rem;
       text-align: center;
-      padding: 1rem;
+      padding: 1rem 1rem 2rem;
     }
-    footer a {
-      color: #D1D5DB;
-      text-decoration: none;
-      margin: 0 0.5rem;
+
+    footer a { color: var(--muted); margin: 0 0.5rem; }
+    footer a:hover { color: var(--teal-hi); }
+
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--panel);
+      border: 1px solid var(--ok);
+      color: var(--ok);
+      padding: 0.6rem 1.4rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 10;
     }
-    footer a:hover {
-      color: #14B8A6;
+
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.err { border-color: var(--err); color: var(--err); }
+
+    @media (max-width: 700px) {
+      .hero { padding: 2.5rem 1rem 2rem; }
+      h1 { font-size: 2rem; }
+      .methods { grid-template-columns: 1fr; }
+      .card { padding: 1.25rem; }
+      .qr img { max-width: 220px; }
     }
-    @media (max-width: 640px) {
-      .hero {
-        padding: 2rem 1rem;
-      }
-      h1 {
-        font-size: 2rem;
-      }
-      .container {
-        padding: 1.5rem;
-        margin: 1rem;
-      }
-      .options {
-        grid-template-columns: 1fr;
-      }
-      button {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-        width: 100%;
-      }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
     }
   </style>
 </head>
 <body>
   <div class="hero">
-    <h1>Support TimeSeed.io / "AVB" </h1>
-    <p>Your contributions fuel the development of our open-source, privacy-focused tools. <br>We operate on a value-for-value basis ... thank you for your support!</p>
+    <h1>Support TimeSeed.io / "AVB"</h1>
+    <p>Your contributions fuel the development of our open-source, privacy-focused tools.<br>We operate on a value-for-value basis ... thank you for your support!</p>
   </div>
 
-  <div class="container">
-    <h2>Choose a Donation Method</h2>
-    <p>Select the Bitcoin donation option below to support TimeSeed.io:</p>
+  <main class="wrap">
+    <div class="methods">
+      <!-- On-chain -->
+      <section class="card" aria-labelledby="onchain-title">
+        <div class="card-head">
+          <h2 id="onchain-title">Bitcoin On-Chain</h2>
+          <span class="tag">Preferred</span>
+        </div>
+        <p class="desc">The preferred way to donate Bitcoin: on-chain, direct and without intermediaries. Works with every Bitcoin wallet.</p>
 
-    <div id="options" class="options"></div>
+        <div class="qr">
+          <img src="OC1.png" alt="QR code for the on-chain Bitcoin address" loading="lazy" onerror="qrFail(this)">
+        </div>
 
-    <div id="details" class="details hidden">
-      <h2 id="details-title"></h2>
-      <p id="details-info"></p>
-      <p id="details-address" class="address"></p>
-      <div id="qrcode">
-        <div class="spinner"></div>
-      </div>
-      <button onclick="backToOptions()">Back</button>
+        <div class="addr">
+          <div class="addr-top">
+            <span class="addr-label">Address</span>
+            <button class="copy" data-copy="bc1qskg2ffr2g3kt3vun4528p9wzah3gnqwgrylcgh">Copy</button>
+          </div>
+          <div class="addr-value">bc1qskg2ffr2g3kt3vun4528p9wzah3gnqwgrylcgh</div>
+        </div>
+
+        <a class="btn" href="bitcoin:bc1qskg2ffr2g3kt3vun4528p9wzah3gnqwgrylcgh">Open in wallet</a>
+      </section>
+
+      <!-- Silent Payments -->
+      <section class="card" aria-labelledby="sp-title">
+        <div class="card-head">
+          <h2 id="sp-title">Silent Payments</h2>
+          <span class="tag">Max privacy</span>
+        </div>
+        <p class="desc">A reusable static address (<a href="https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki" target="_blank" rel="noopener noreferrer">BIP352</a>). Every payment lands on a fresh on-chain address, so donations can't be linked together.</p>
+
+        <div class="qr">
+          <img src="https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/silent1.png" alt="QR code for the Silent Payment address" loading="lazy" onerror="qrFail(this)">
+        </div>
+
+        <div class="addr">
+          <div class="addr-top">
+            <span class="addr-label">Alias (<a href="https://github.com/bitcoin/bips/blob/master/bip-0353.mediawiki" target="_blank" rel="noopener noreferrer">BIP353</a>)</span>
+            <button class="copy" data-copy="avb@danawallet.app">Copy</button>
+          </div>
+          <div class="addr-value">₿avb@danawallet.app</div>
+        </div>
+
+        <div class="addr">
+          <div class="addr-top">
+            <span class="addr-label">SP address</span>
+            <button class="copy" data-copy="sp1qqv5t58fjkc77l7repqgy7x5pudp4dh3vypddle7eyplassvgvfp85qu3lfu2dd87ws8ltetshtdqut3yg3r9qm4650u5fwruwe0ad4u38gkkq3hr">Copy</button>
+          </div>
+          <div class="addr-value">sp1qqv5t58fjkc77l7repqgy7x5pudp4dh3vypddle7eyplassvgvfp85qu3lfu2dd87ws8ltetshtdqut3yg3r9qm4650u5fwruwe0ad4u38gkkq3hr</div>
+        </div>
+
+        <p class="foot-note">Sending requires a wallet with Silent Payments support, e.g. Cake Wallet, BlueWallet or Dana Wallet.</p>
+      </section>
     </div>
+
+    <!-- Lightning (demoted) -->
+    <details class="lightning">
+      <summary><span aria-hidden="true">⚡</span> Lightning (BOLT12): try it if your wallet supports it, no guarantee it works</summary>
+      <div class="lightning-body">
+        <p>On-chain and Silent Payments are the preferred options. If your wallet supports <strong>BOLT12</strong> offers and BIP353 names (e.g. Phoenix), you can send sats over Lightning to the address below. Classic LNURL-only Lightning wallets won't be able to pay it.</p>
+        <div class="addr">
+          <div class="addr-top">
+            <span class="addr-label">Lightning (BOLT12)</span>
+            <button class="copy" data-copy="sixtwill69@phoenixwallet.me">Copy</button>
+          </div>
+          <div class="addr-value">₿sixtwill69@phoenixwallet.me</div>
+        </div>
+      </div>
+    </details>
 
     <div class="highlight-box">
       <p><strong>Why Donate?</strong> Your support helps us maintain and improve TimeSeed.io, ensuring privacy remains a human right. Every contribution counts!</p>
     </div>
-  </div>
+  </main>
 
-  <hr />
-  <p style="text-align: center;"><small>TimeSeed is free, open-source, and designed for a future where privacy is a human right.</small></p>
+  <hr>
+  <p class="tagline"><small>TimeSeed is free, open-source, and designed for a future where privacy is a human right.</small></p>
 
-  <footer class="text-sm text-[#D1D5DB] mt-4 text-center">
-    <a href="https://github.com/avbpodcast/timeseed.io" class="hover:text-[#14B8A6]">Sources</a>  
+  <footer>
+    <a href="https://github.com/avbpodcast/timeseed.io" target="_blank" rel="noopener noreferrer">Sources</a>
   </footer>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script>
-    // Preload images
-    const images = [
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/MR21QR.png',
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/bolt12.png',
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/onchain4.png',
-      'https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/v1/silent1.png'
-    ];
-    images.forEach(src => {
-      const img = new Image();
-      img.src = src;
-    });
-
-     const donationOptions = [
-      {
-        name: "Lightning Network",
-        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/MR21QR.png",
-        address: "Mr21@coinos.io",
-        details: "<strong>Warning:</strong> Donate through Lightning Network to 'Mr21'."
-      },
-      {
-        name: "Bitcoin On-Chain",
-        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/onchain4.png",
-        address: "bc1qqds437303xe8d2cwgkm2kratpthfjlynlx8vmy",
-        details: "The preferred way to donate Bitcoin: on-chain, direct and without intermediaries."
-      },
-      {
-        name: "Silent Payment",
-        image: "https://raw.githubusercontent.com/avbpodcast/timeseed.io/main/silent1.png",
-        address: "sp1qqv5t58fjkc77l7repqgy7x5pudp4dh3vypddle7eyplassvgvfp85qu3lfu2dd87ws8ltetshtdqut3yg3r9qm4650u5fwruwe0ad4u38gkkq3hr",
-        details: "Silent Payments, supported by Phoenix, Blue Wallet, DANA, Cake Wallet, and WabiSabi. More to come soon! <a href='https://github.com/bitcoin/bips/blob/master/bip-0353.mediawiki' target='_blank' rel='noopener noreferrer'>Learn more about BIP353</a>."
-      }
-    ];
-
-    function loadOptions() {
-      const optionsDiv = document.getElementById('options');
-      optionsDiv.innerHTML = '';
-
-      donationOptions.forEach(option => {
-        const button = document.createElement('button');
-        button.textContent = option.name;
-        button.onclick = () => showDetails(option);
-        optionsDiv.appendChild(button);
-      });
+    function qrFail(img) {
+      const p = document.createElement('p');
+      p.className = 'qr-error';
+      p.textContent = 'QR code could not be loaded — use the address below.';
+      img.replaceWith(p);
     }
 
-    function showDetails(option) {
-      document.getElementById('options').classList.add('hidden');
-      const detailsDiv = document.getElementById('details');
-      detailsDiv.classList.remove('hidden');
+    function showToast(msg, isError) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.toggle('err', !!isError);
+      t.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => t.classList.remove('show'), 2000);
+    }
 
-      document.getElementById('details-title').textContent = option.name;
-      document.getElementById('details-info').innerHTML = option.details;
-      document.getElementById('details-address').textContent = option.address;
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      ta.remove();
+      return ok;
+    }
 
-      const qrDiv = document.getElementById('qrcode');
-      qrDiv.innerHTML = '<div class="spinner"></div>';
-      const spinner = qrDiv.querySelector('.spinner');
-      spinner.style.display = 'block';
-
-      if (typeof QRCode === 'undefined' && !option.image) {
-        qrDiv.innerHTML = '<p style="color: #F87171;">Error: QR code generation failed. Please try again later.</p>';
-        spinner.style.display = 'none';
-        console.error('QRCode library not loaded');
-        return;
-      }
-
-      setTimeout(() => {
-        qrDiv.innerHTML = '';
-        if (option.image) {
-          const img = document.createElement('img');
-          img.src = option.image;
-          img.alt = `${option.name} QR Code`;
-          img.onerror = () => {
-            qrDiv.innerHTML = '<p style="color: #F87171;">Error: Failed to load QR code image.</p>';
-          };
-          qrDiv.appendChild(img);
-        } else if (option.address) {
-          try {
-            new QRCode(qrDiv, {
-              text: option.address,
-              width: 300,
-              height: 300,
-              colorDark: '#F59E0B',
-              colorLight: '#2D2D2D'
-            });
-          } catch (e) {
-            qrDiv.innerHTML = '<p style="color: #F87171;">Error: Failed to generate QR code.</p>';
-            console.error('QRCode generation error:', e);
-          }
+    document.querySelectorAll('.copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.dataset.copy;
+        const done = () => {
+          showToast('Copied to clipboard!');
+          btn.textContent = 'Copied';
+          setTimeout(() => (btn.textContent = 'Copy'), 1500);
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(done).catch(() => {
+            fallbackCopy(text) ? done() : showToast('Failed to copy', true);
+          });
+        } else {
+          fallbackCopy(text) ? done() : showToast('Failed to copy', true);
         }
-        spinner.style.display = 'none';
-      }, 300);
-    }
-
-    function backToOptions() {
-      document.getElementById('options').classList.remove('hidden');
-      document.getElementById('details').classList.add('hidden');
-      document.getElementById('qrcode').innerHTML = '';
-      document.getElementById('details-address').textContent = '';
-    }
-
-    function downloadPage() {
-      const htmlContent = document.documentElement.outerHTML;
-      const blob = new Blob([htmlContent], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'timeseed-donate-v1_13.html';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    // Load options immediately
-    loadOptions();
+      });
+    });
   </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
